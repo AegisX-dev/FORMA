@@ -25,17 +25,27 @@ interface WorkoutPlan {
 
 const GOALS = ["HYPERTROPHY", "STRENGTH", "ENDURANCE"] as const;
 const EQUIPMENT = ["BARBELL", "DUMBBELL", "CABLES", "BODYWEIGHT"] as const;
+const LOADING_SEQUENCE = [
+  "CONNECTING TO NEURAL NET...",
+  "ANALYZING BIOMETRICS...",
+  "FETCHING RESEARCH DATA...",
+  "CALCULATING VOLUME LOAD...",
+  "OPTIMIZING REST INTERVALS...",
+  "ASSEMBLING BLUEPRINT...",
+];
 
 export default function Home() {
   const [goal, setGoal] = useState<string>("HYPERTROPHY");
   const [duration, setDuration] = useState(45);
   const [equipment, setEquipment] = useState<string[]>(["BARBELL"]);
   const [loading, setLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState("INITIALIZING SYSTEM...");
   const [workoutPlan, setWorkoutPlan] = useState<WorkoutPlan | null>(null);
   const [showResults, setShowResults] = useState(false);
 
   const formRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const loadingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleGoalSelect = (g: string) => {
     console.log("Goal selected:", g);
@@ -67,6 +77,14 @@ export default function Home() {
     }
 
     setLoading(true);
+    setLoadingText("INITIALIZING SYSTEM...");
+
+    // Start the loading sequence
+    let sequenceIndex = 0;
+    loadingIntervalRef.current = setInterval(() => {
+      setLoadingText(LOADING_SEQUENCE[sequenceIndex % LOADING_SEQUENCE.length]);
+      sequenceIndex++;
+    }, 1800);
 
     try {
       const response = await fetch("/api/generate-plan", {
@@ -100,6 +118,11 @@ export default function Home() {
     } catch (error) {
       console.error("Error generating plan:", error);
     } finally {
+      // Clear the loading interval
+      if (loadingIntervalRef.current) {
+        clearInterval(loadingIntervalRef.current);
+        loadingIntervalRef.current = null;
+      }
       setLoading(false);
     }
   };
@@ -254,9 +277,16 @@ export default function Home() {
         {/* Loading State */}
         {loading && (
           <div className="flex min-h-[400px] items-center justify-center">
-            <p className="font-mono text-sm uppercase tracking-widest text-acid animate-pulse">
-              INITIALIZING AI...
-            </p>
+            <div className="text-center">
+              <p className="font-mono text-sm uppercase tracking-widest text-acid animate-pulse">
+                {loadingText}
+              </p>
+              <div className="mt-4 flex justify-center gap-1">
+                <span className="h-2 w-2 bg-acid animate-pulse" style={{ animationDelay: "0ms" }}></span>
+                <span className="h-2 w-2 bg-acid animate-pulse" style={{ animationDelay: "150ms" }}></span>
+                <span className="h-2 w-2 bg-acid animate-pulse" style={{ animationDelay: "300ms" }}></span>
+              </div>
+            </div>
           </div>
         )}
 
