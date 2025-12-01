@@ -4,6 +4,8 @@
 
 <p align="center">
   <strong>Science-backed fitness programs generated in seconds.</strong>
+  <br><br>
+  <a href="https://forma-two.vercel.app/">🔗 Live Demo</a>
 </p>
 
 ---
