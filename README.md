@@ -8,6 +8,10 @@
   <a href="https://forma-two.vercel.app/">🔗 Live Demo</a>
 </p>
 
+<p align="center">
+  <img src="assets/Forma.gif" alt="FORMA Demo" width="800">
+</p>
+
 ---
 
 ## ✨ What is FORMA?
