@@ -126,6 +126,12 @@ src/
 
 ---
 
+## 📜 License
+
+Copyright © 2025 Forma. All rights reserved.
+
+---
+
 <p align="center">
   <sub>Built with 🧠 and 💪</sub>
 </p>
