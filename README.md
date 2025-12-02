@@ -81,7 +81,14 @@ npm install
 
 # Set up environment variables
 cp .env.example .env.local
+```
 
+### Database Setup
+
+1. Go to your [Supabase SQL Editor](https://supabase.com/dashboard)
+2. Run the SQL script found in `src/sql/schema.sql`
+
+```bash
 # Run development server
 npm run dev
 ```
