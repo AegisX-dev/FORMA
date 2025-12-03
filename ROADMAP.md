@@ -18,11 +18,11 @@ This document outlines the development roadmap from **v1.0** (current) through *
 
 | Source   | Issue                   | Problem                                                              | Solution                                                                                                  | Status |
 | -------- | ----------------------- | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ------ |
-| User #10 | Random Errors / Timeout | Users see errors, retry works. Vercel/Gemini hits 10s timeout limit. | **Vadim's Optimization:** Filter exercises in Supabase first to reduce payload size before sending to AI. | ✅ |
-| User #7  | "Always 4 Days" Bug     | App generates 4 days even if user selects 3. Prompt logic is weak.   | **Prompt Engineering:** Strict enforcement in `prompts.ts` with explicit day count validation.            | ✅ |
-| Tariq    | Unresponsive Scrolling  | Page freezes after generation.                                       | **DOM Cleanup:** Fix anime.js ghost element issue — ensure proper cleanup on unmount.                     | ✅ |
-| Vadim    | Terminology Error       | Docs say "RAG" but implementation is actually "Context Injection."   | **Docs Update:** Correct terminology in README.md to be technically accurate.                             | ✅ |
-| Noor     | Latency Complaint       | "Loading feels slow" (40s+).                                         | **SQL Optimization + Gemini 2.0:** Reduced to ~8s response time.                                          | ✅ |
+| User #10 | Random Errors / Timeout | Users see errors, retry works. Vercel/Gemini hits 10s timeout limit. | **Vadim's Optimization:** Filter exercises in Supabase first to reduce payload size before sending to AI. | ✅     |
+| User #7  | "Always 4 Days" Bug     | App generates 4 days even if user selects 3. Prompt logic is weak.   | **Prompt Engineering:** Strict enforcement in `prompts.ts` with explicit day count validation.            | ✅     |
+| Tariq    | Unresponsive Scrolling  | Page freezes after generation.                                       | **DOM Cleanup:** Fix anime.js ghost element issue — ensure proper cleanup on unmount.                     | ✅     |
+| Vadim    | Terminology Error       | Docs say "RAG" but implementation is actually "Context Injection."   | **Docs Update:** Correct terminology in README.md to be technically accurate.                             | ✅     |
+| Noor     | Latency Complaint       | "Loading feels slow" (40s+).                                         | **SQL Optimization + Gemini 2.0:** Reduced to ~8s response time.                                          | ✅     |
 
 ---
 

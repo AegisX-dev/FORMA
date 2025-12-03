@@ -15,13 +15,13 @@ Version 1.1 is a critical patch release focused on **performance**, **logic fixe
 
 ## ✅ Issues Fixed
 
-| Source | Category | Issue | Solution | Status |
-|--------|----------|-------|----------|--------|
-| User #10 | ⚡ Performance | Random Errors / Timeout (49s → crash) | Switched to `gemini-2.0-flash` + SQL payload optimization | ✅ FIXED |
-| User #7 | 🧠 Logic | "Always 4 Days" Bug | Strict day count enforcement in System Prompt | ✅ FIXED |
-| Tariq | 🐞 Bug | Unresponsive Scrolling | Ghost form removal via `display: none` after animation | ✅ FIXED |
-| Vadim | ⚙️ Architecture | SQL Optimization | `.overlaps()` filter + case normalization (DUMBBELL → Dumbbell) | ✅ DONE |
-| Noor | ⚡ Performance | "Loading feels slow" | Latency reduced from 40s+ to ~8s | ✅ MITIGATED |
+| Source   | Category        | Issue                                 | Solution                                                        | Status       |
+| -------- | --------------- | ------------------------------------- | --------------------------------------------------------------- | ------------ |
+| User #10 | ⚡ Performance  | Random Errors / Timeout (49s → crash) | Switched to `gemini-2.0-flash` + SQL payload optimization       | ✅ FIXED     |
+| User #7  | 🧠 Logic        | "Always 4 Days" Bug                   | Strict day count enforcement in System Prompt                   | ✅ FIXED     |
+| Tariq    | 🐞 Bug          | Unresponsive Scrolling                | Ghost form removal via `display: none` after animation          | ✅ FIXED     |
+| Vadim    | ⚙️ Architecture | SQL Optimization                      | `.overlaps()` filter + case normalization (DUMBBELL → Dumbbell) | ✅ DONE      |
+| Noor     | ⚡ Performance  | "Loading feels slow"                  | Latency reduced from 40s+ to ~8s                                | ✅ MITIGATED |
 
 ---
 
@@ -30,16 +30,18 @@ Version 1.1 is a critical patch release focused on **performance**, **logic fixe
 ### 1. Supabase Query Optimization
 
 **Before:**
+
 ```typescript
 // Fetched ALL exercises (32 rows)
 const { data } = await supabase.from("exercises").select("*");
 ```
 
 **After:**
+
 ```typescript
 // Filter by user's equipment + case normalization
-const formattedEquipment = userEquipment.map(item => 
-  item.charAt(0).toUpperCase() + item.slice(1).toLowerCase()
+const formattedEquipment = userEquipment.map(
+  (item) => item.charAt(0).toUpperCase() + item.slice(1).toLowerCase()
 );
 
 const { data } = await supabase
@@ -72,12 +74,14 @@ STRICT RULES (MUST FOLLOW — NO EXCEPTIONS):
 ### 3. DOM Cleanup Fix
 
 **Before:**
+
 ```typescript
 // Form remained in DOM (invisible but blocking clicks)
 animate(formRef.current, { opacity: 0 });
 ```
 
 **After:**
+
 ```typescript
 // Form completely removed after animation
 animate(formElement, {
@@ -106,11 +110,11 @@ Added new UI component:
 
 ## 📊 Performance Metrics
 
-| Metric | v1.0 | v1.1 | Improvement |
-|--------|------|------|-------------|
-| API Response Time | 40-49s (timeout) | ~8s | **80% faster** |
-| Token Usage | ~2000 tokens | ~800 tokens | **60% reduction** |
-| Error Rate | High (timeout crashes) | Low | **Stable** |
+| Metric            | v1.0                   | v1.1        | Improvement       |
+| ----------------- | ---------------------- | ----------- | ----------------- |
+| API Response Time | 40-49s (timeout)       | ~8s         | **80% faster**    |
+| Token Usage       | ~2000 tokens           | ~800 tokens | **60% reduction** |
+| Error Rate        | High (timeout crashes) | Low         | **Stable**        |
 
 ---
 
