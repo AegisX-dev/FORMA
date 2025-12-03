@@ -3,9 +3,16 @@
 > Sculpted by Science. Architected by AI.
 
 <p align="center">
+  <img src="https://img.shields.io/badge/version-1.1-acid?style=flat-square" alt="Version 1.1">
+  <img src="https://img.shields.io/badge/status-live-brightgreen?style=flat-square" alt="Status: Live">
+</p>
+
+<p align="center">
   <strong>Science-backed fitness programs generated in seconds.</strong>
   <br><br>
-  <a href="https://forma-two.vercel.app/">🔗 Live Demo</a>
+  <a href="https://forma-two.vercel.app/">🔗 Live Demo</a> · 
+  <a href="VERSION-1.1.md">📋 v1.1 Release Notes</a> · 
+  <a href="ROADMAP.md">🗺️ Roadmap</a>
 </p>
 
 <p align="center">
@@ -120,9 +127,17 @@ src/
 ## ⚡ Features
 
 - **Goal Selection** — Hypertrophy, Strength, or Endurance
-- **Smart Programming** — AI selects exercises from your database
+- **Frequency Control** — Choose 3, 4, 5, or 6 training days per week
+- **Equipment Filtering** — Plans adapt to your available gear
+- **Smart Programming** — AI selects exercises from curated database
 - **Science Notes** — Hover to see why each exercise is included
 - **PDF Export** — Download your blueprint for offline use
+
+## 📈 What's New in v1.1
+
+- ⚡ **80% faster** — Response time reduced from 40s to ~8s
+- 🎯 **Days selector** — Choose your training frequency
+- 🔧 **Bug fixes** — Scroll issues, day count logic, equipment filtering
 
 ---
 
