@@ -5,6 +5,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/version-1.1-acid?style=flat-square" alt="Version 1.1">
   <img src="https://img.shields.io/badge/status-live-brightgreen?style=flat-square" alt="Status: Live">
+  <img src="https://img.shields.io/badge/security-patched-blue?style=flat-square" alt="Security: Patched">
 </p>
 
 <p align="center">
@@ -12,7 +13,8 @@
   <br><br>
   <a href="https://forma-two.vercel.app/">🔗 Live Demo</a> · 
   <a href="VERSION-1.1.md">📋 v1.1 Release Notes</a> · 
-  <a href="ROADMAP.md">🗺️ Roadmap</a>
+  <a href="ROADMAP.md">🗺️ Roadmap</a> ·
+  <a href="SECURITY.md">🔒 Security</a>
 </p>
 
 <p align="center">
@@ -138,6 +140,7 @@ src/
 - ⚡ **80% faster** — Response time reduced from 40s to ~8s
 - 🎯 **Days selector** — Choose your training frequency
 - 🔧 **Bug fixes** — Scroll issues, day count logic, equipment filtering
+- 🔒 **Security patch** — CVE-2025-55182 (Critical RCE vulnerability patched)
 
 ---
 
