@@ -30,10 +30,30 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Step A: Query Supabase for all exercises
-    const { data: exercises, error: dbError } = await supabase
+    // Parse user equipment into array format
+    const userEquipment = userInputs.equipment
+      .split(",")
+      .map((e: string) => e.trim())
+      .filter(Boolean);
+
+    // Convert to Title Case to match database format (e.g., 'DUMBBELL' -> 'Dumbbell')
+    const formattedEquipment = userEquipment.map((item: string) => 
+      item.charAt(0).toUpperCase() + item.slice(1).toLowerCase()
+    );
+
+    // Step A: Query Supabase for exercises filtered by user's equipment
+    let { data: exercises, error: dbError } = await supabase
       .from("exercises")
-      .select("readable_id, name, target_muscle, equipment, science_note");
+      .select("readable_id, name, target_muscle, equipment, science_note")
+      .overlaps("equipment", formattedEquipment);
+
+    // Debug logging
+    console.log("=== EXERCISE FILTER DEBUG ===");
+    console.log("Raw equipment:", userEquipment);
+    console.log("Formatted equipment:", formattedEquipment);
+    console.log("Exercises found:", exercises?.length ?? 0);
+    console.log("Exercise names:", exercises?.map(ex => ex.name) ?? []);
+    console.log("=============================");
 
     if (dbError) {
       return NextResponse.json(
@@ -42,11 +62,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Fallback: If no exercises found, try bodyweight exercises
     if (!exercises || exercises.length === 0) {
-      return NextResponse.json(
-        { error: "No exercises found in database" },
-        { status: 404 }
-      );
+      const { data: fallbackExercises, error: fallbackError } = await supabase
+        .from("exercises")
+        .select("readable_id, name, target_muscle, equipment, science_note")
+        .overlaps("equipment", ["Bodyweight"]);
+
+      if (fallbackError || !fallbackExercises || fallbackExercises.length === 0) {
+        return NextResponse.json(
+          { error: "No exercises found matching your equipment. Please select different equipment." },
+          { status: 404 }
+        );
+      }
+
+      exercises = fallbackExercises;
     }
 
     // Create a lookup map for exercise data

@@ -34,10 +34,13 @@ const LOADING_SEQUENCE = [
   "ASSEMBLING BLUEPRINT...",
 ];
 
+const DAYS_OPTIONS = [3, 4, 5, 6] as const;
+
 export default function Home() {
   const [goal, setGoal] = useState<string>("HYPERTROPHY");
   const [duration, setDuration] = useState(45);
   const [equipment, setEquipment] = useState<string[]>(["BARBELL"]);
+  const [daysPerWeek, setDaysPerWeek] = useState(3);
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState("INITIALIZING SYSTEM...");
   const [workoutPlan, setWorkoutPlan] = useState<WorkoutPlan | null>(null);
@@ -66,13 +69,17 @@ export default function Home() {
 
   const handleGenerate = async () => {
     console.log("Generate clicked with:", { goal, duration, equipment });
-    // Animate form out
+    // Animate form out and hide it completely when done
     if (formRef.current) {
-      animate(formRef.current, {
+      const formElement = formRef.current;
+      animate(formElement, {
         translateY: -40,
         opacity: 0,
         duration: 400,
         ease: "inQuad",
+        onComplete: () => {
+          formElement.style.display = "none";
+        },
       });
     }
 
@@ -95,7 +102,7 @@ export default function Home() {
             goal: goal.toLowerCase(),
             duration: `${duration} minutes`,
             equipment: equipment.join(", ") || "Bodyweight",
-            days: "4",
+            days: String(daysPerWeek),
           },
         }),
       });
@@ -104,9 +111,13 @@ export default function Home() {
       setWorkoutPlan(data);
       setShowResults(true);
 
+      // Scroll to top smoothly
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
       // Animate results in after a brief delay
       setTimeout(() => {
         if (resultsRef.current) {
+          resultsRef.current.style.display = "block";
           animate(resultsRef.current, {
             translateY: [40, 0],
             opacity: [0, 1],
@@ -130,18 +141,21 @@ export default function Home() {
   const handleReset = () => {
     // Animate results out
     if (resultsRef.current) {
-      animate(resultsRef.current, {
+      const resultsElement = resultsRef.current;
+      animate(resultsElement, {
         translateY: -40,
         opacity: 0,
         duration: 400,
         ease: "inQuad",
         onComplete: () => {
+          resultsElement.style.display = "none";
           setWorkoutPlan(null);
           setShowResults(false);
 
           // Animate form back in
           setTimeout(() => {
             if (formRef.current) {
+              formRef.current.style.display = "block";
               animate(formRef.current, {
                 translateY: [40, 0],
                 opacity: [0, 1],
@@ -384,10 +398,34 @@ export default function Home() {
               </div>
             </section>
 
+            {/* Frequency Selection */}
+            <section>
+              <label className="block font-mono text-xs uppercase tracking-widest text-acid mb-6">
+                03 — FREQUENCY
+              </label>
+              <div className="flex flex-wrap gap-3">
+                {DAYS_OPTIONS.map((d) => (
+                  <button
+                    key={d}
+                    type="button"
+                    onClick={() => setDaysPerWeek(d)}
+                    style={{
+                      backgroundColor: daysPerWeek === d ? '#D4FF00' : 'transparent',
+                      color: daysPerWeek === d ? '#050505' : '#888888',
+                      borderColor: daysPerWeek === d ? '#D4FF00' : 'rgba(136, 136, 136, 0.3)',
+                    }}
+                    className="border-2 px-6 py-3 font-mono text-sm uppercase tracking-widest transition-all font-bold"
+                  >
+                    {d} DAYS
+                  </button>
+                ))}
+              </div>
+            </section>
+
             {/* Equipment Selection */}
             <section>
               <label className="block font-mono text-xs uppercase tracking-widest text-acid mb-6">
-                03 — EQUIPMENT
+                04 — EQUIPMENT
               </label>
               <div className="flex flex-wrap gap-3">
                 {EQUIPMENT.map((item) => (
