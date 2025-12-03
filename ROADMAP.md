@@ -42,14 +42,14 @@ This document outlines the development roadmap from **v1.0** (current) through *
 
 ## 🏋️ Phase 3: Content Expansion — v1.3 "The Value"
 
-> **Priority:** MEDIUM  
-> **Goal:** Make workout plans actually better
+> **Priority:** HIGH (originally planned for later, pulled forward)
+> **Goal:** Increase plan variety and retention
 
-| Source   | Feature         | Implementation                                                                      |
-| -------- | --------------- | ----------------------------------------------------------------------------------- |
-| User #6  | Demo Videos     | Add a "Watch" button to exercise cards that links to `video_url` field in database. |
-| User #11 | More Exercises  | Add 20+ exercises to cover gaps: **Abs**, **Forearms**, specific machines.          |
-| README   | Admin Dashboard | Build a simple `/admin` page to add exercises without writing SQL scripts.          |
+| Source | Issue | Description | Status |
+| :--- | :--- | :--- | :--- |
+| **User #11** | **More Exercises** | **Add 20+ exercises to cover gaps: Abs, Forearms, specific machines.** | **✅ DONE (v1.1)** |
+| User #6 | Demo Videos | Add "Watch" button linking to video tutorials. | 📋 Planned |
+| Internal | Admin Dashboard | UI to add exercises without SQL access. | 📋 Planned |
 
 ---
 
@@ -77,29 +77,26 @@ This document outlines the development roadmap from **v1.0** (current) through *
 
 ---
 
-## 📊 Release Timeline
+## 📊 Release Timeline (Updated)
 
-```
+```text
 v1.0 ──────────────────────────────────────────────────────── ✅ RELEASED
   │   December 2, 2025
   │
 v1.1 "The Patch" ─────────────────────────────────────────── ✅ RELEASED
   │   December 3, 2025
-  │   • Timeout fixes (40s → 8s)
-  │   • 4-day bug fix (strict prompt)
-  │   • DOM cleanup (ghost form)
+  │   • Timeout fixes (SQL Filter)
+  │   • 4-day bug fix (Strict Prompt)
   │   • Days selector UI
-  │   • SQL filter optimization
+  │   • Data Expansion (30+ new exercises added from Kaggle) ⬅️ [Pulled from Phase 3]
   │
 v1.2 "The Professional" ──────────────────────────────────── 📋 PLANNED
   │   • Duration slider
   │   • Multi-goal selection
   │   • Visual polish
-  │   • Mobile responsive
   │
 v1.3 "The Value" ─────────────────────────────────────────── 📋 PLANNED
   │   • Exercise videos
-  │   • 20+ new exercises
   │   • Admin dashboard
   │
 v2.0 "The Upgrade" ───────────────────────────────────────── 🔮 FUTURE
