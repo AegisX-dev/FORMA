@@ -13,14 +13,16 @@ This document outlines the development roadmap from **v1.0** (current) through *
 ## 🚨 Phase 1: Critical Fixes — v1.1 "The Patch"
 
 > **Priority:** IMMEDIATE  
-> **Goal:** Fix breaking issues before adding features
+> **Goal:** Fix breaking issues before adding features  
+> **Status:** ✅ RELEASED (December 3, 2025)
 
-| Source   | Issue                   | Problem                                                              | Solution                                                                                                  |
-| -------- | ----------------------- | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| User #10 | Random Errors / Timeout | Users see errors, retry works. Vercel/Gemini hits 10s timeout limit. | **Vadim's Optimization:** Filter exercises in Supabase first to reduce payload size before sending to AI. |
-| User #7  | "Always 4 Days" Bug     | App generates 4 days even if user selects 3. Prompt logic is weak.   | **Prompt Engineering:** Strict enforcement in `prompts.ts` with explicit day count validation.            |
-| Tariq    | Unresponsive Scrolling  | Page freezes after generation.                                       | **DOM Cleanup:** Fix anime.js ghost element issue — ensure proper cleanup on unmount.                     |
-| Vadim    | Terminology Error       | Docs say "RAG" but implementation is actually "Context Injection."   | **Docs Update:** Correct terminology in README.md to be technically accurate.                             |
+| Source   | Issue                   | Problem                                                              | Solution                                                                                                  | Status |
+| -------- | ----------------------- | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ------ |
+| User #10 | Random Errors / Timeout | Users see errors, retry works. Vercel/Gemini hits 10s timeout limit. | **Vadim's Optimization:** Filter exercises in Supabase first to reduce payload size before sending to AI. | ✅ |
+| User #7  | "Always 4 Days" Bug     | App generates 4 days even if user selects 3. Prompt logic is weak.   | **Prompt Engineering:** Strict enforcement in `prompts.ts` with explicit day count validation.            | ✅ |
+| Tariq    | Unresponsive Scrolling  | Page freezes after generation.                                       | **DOM Cleanup:** Fix anime.js ghost element issue — ensure proper cleanup on unmount.                     | ✅ |
+| Vadim    | Terminology Error       | Docs say "RAG" but implementation is actually "Context Injection."   | **Docs Update:** Correct terminology in README.md to be technically accurate.                             | ✅ |
+| Noor     | Latency Complaint       | "Loading feels slow" (40s+).                                         | **SQL Optimization + Gemini 2.0:** Reduced to ~8s response time.                                          | ✅ |
 
 ---
 
@@ -79,13 +81,15 @@ This document outlines the development roadmap from **v1.0** (current) through *
 
 ```
 v1.0 ──────────────────────────────────────────────────────── ✅ RELEASED
-  │   December 2025
+  │   December 2, 2025
   │
-v1.1 "The Patch" ─────────────────────────────────────────── 🔧 IN PROGRESS
-  │   • Timeout fixes
-  │   • 4-day bug fix
-  │   • DOM cleanup
-  │   • Docs correction
+v1.1 "The Patch" ─────────────────────────────────────────── ✅ RELEASED
+  │   December 3, 2025
+  │   • Timeout fixes (40s → 8s)
+  │   • 4-day bug fix (strict prompt)
+  │   • DOM cleanup (ghost form)
+  │   • Days selector UI
+  │   • SQL filter optimization
   │
 v1.2 "The Professional" ──────────────────────────────────── 📋 PLANNED
   │   • Duration slider
