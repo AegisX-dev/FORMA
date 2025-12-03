@@ -1,7 +1,8 @@
 # FORMA v1.1 — Release Summary
 
 > **Release Date:** December 3, 2025  
-> **Codename:** The Patch
+> **Codename:** The Patch  
+> **Security Patch:** December 3, 2025 (CVE-2025-55182)
 
 ---
 
@@ -149,6 +150,16 @@ Deployed via Vercel auto-deploy on push to `main`.
 - [ ] Multi-goal selection (Hypertrophy + Strength)
 - [ ] Visual polish (softer contrast)
 - [ ] Mobile responsiveness improvements
+
+---
+
+## 🔒 Security Update (December 3, 2025)
+
+| CVE ID | Severity | Type | Action |
+|--------|----------|------|--------|
+| CVE-2025-55182 | 🔴 Critical | Remote Code Execution (RCE) | Upgraded Next.js 16.0.6 → 16.0.7, React 19.2.0 → 19.2.1 |
+
+See [SECURITY.md](SECURITY.md) for full security policy.
 
 ---
 

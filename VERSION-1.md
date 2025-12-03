@@ -1,7 +1,8 @@
 # FORMA v1.0 — Release Summary
 
 > **Release Date:** December 2, 2025  
-> **Codename:** Genesis
+> **Codename:** Genesis  
+> **Status:** ⚠️ Superseded by [v1.1](VERSION-1.1.md)
 
 ---
 
@@ -127,14 +128,17 @@ src/
 
 ---
 
-## 🛣 Roadmap for v2.0
+## 🛣 Roadmap
 
-- [ ] User authentication (Supabase Auth)
-- [ ] Workout history and progress tracking
-- [ ] Admin dashboard for exercise management
-- [ ] Weekly program generation (not just single sessions)
-- [ ] Exercise video integration
-- [ ] Mobile-responsive improvements
+- [x] ~~Performance optimization~~ → **Completed in v1.1**
+- [x] ~~Days selector UI~~ → **Completed in v1.1**
+- [ ] User authentication (Supabase Auth) → **Planned for v2.0**
+- [ ] Workout history and progress tracking → **Planned for v2.0**
+- [ ] Admin dashboard for exercise management → **Planned for v1.3**
+- [ ] Weekly program generation → **Planned for v2.0**
+- [ ] Exercise video integration → **Planned for v1.3**
+
+**See full roadmap:** [ROADMAP.md](ROADMAP.md)
 
 ---
 
