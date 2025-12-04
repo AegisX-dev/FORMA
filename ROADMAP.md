@@ -20,29 +20,30 @@ This document outlines the development roadmap from **v1.0** (current) through *
 | -------- | ----------------------- | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ------ |
 | User #10 | Random Errors / Timeout | Users see errors, retry works. Vercel/Gemini hits 10s timeout limit. | **Vadim's Optimization:** Filter exercises in Supabase first to reduce payload size before sending to AI. | ✅     |
 | User #7  | "Always 4 Days" Bug     | App generates 4 days even if user selects 3. Prompt logic is weak.   | **Prompt Engineering:** Strict enforcement in `prompts.ts` with explicit day count validation.            | ✅     |
-| Tariq    | Unresponsive Scrolling  | Page freezes after generation.                                       | **DOM Cleanup:** Fix anime.js ghost element issue — ensure proper cleanup on unmount.                     | ✅     |
-| Vadim    | Terminology Error       | Docs say "RAG" but implementation is actually "Context Injection."   | **Docs Update:** Correct terminology in README.md to be technically accurate.                             | ✅     |
-| Noor     | Latency Complaint       | "Loading feels slow" (40s+).                                         | **SQL Optimization + Gemini 2.0:** Reduced to ~8s response time.                                          | ✅     |
+| Tariq    | Unresponsive Scrolling  | Page freezes after generation.                                       | **DOM Cleanup:** Fix anime.js ghost element via `display: none`.                                          | ✅     |
+| Vadim    | Terminology             | Docs say "RAG" but strictly it is "Context Injection".               | Update README to use accurate architectural terminology.                                                  | ✅     |
 
 ---
 
 ## 🎨 Phase 2: UX Polish — v1.2 "The Professional"
 
 > **Priority:** HIGH  
-> **Goal:** Make the app feel premium
+> **Goal:** Fix usability issues and make the app feel "Premium"  
+> **Status:** 🚧 IN PROGRESS
 
-| Source      | Feature               | Implementation                                                                                                           |
-| ----------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| User #3     | Session Scroll Wheel  | Replace raw number input with a custom **Dial** or **Slider** component for session duration.                            |
-| User #2     | Multi-Goal Selection  | Allow users to select "Hypertrophy" AND "Strength" simultaneously. Update System Prompt to handle hybrid training logic. |
-| User #4, #5 | Visual Tweaks         | The "Void" aesthetic is too dark/harsh on some screens. Soften contrast and improve color grading.                       |
-| README      | Mobile Responsiveness | Ensure Slider and Cards render perfectly on iPhone SE and Android devices.                                               |
+| Source          | Issue                   | Problem                                                                 | Solution                                                                                   | Status |
+| :-------------- | :---------------------- | :---------------------------------------------------------------------- | :----------------------------------------------------------------------------------------- | :----- |
+| **Mobile User** | **Mobile Overlap** | **Text overwrites itself on small screens and in PDF exports.** | **Responsiveness Fix:** Switch grid cols to 1 on mobile; fix PDF autoTable text wrapping.  | 🚧     |
+| **Mobile User** | **Small Fonts** | **Users report text is hard to read (too small).** | **Readability Bump:** Increase base font scale by 10% (`text-sm` → `text-base`).           | 🚧     |
+| User #3         | Session Scroll Wheel    | Text input for "Minutes" is ugly/hard to use.                           | Replace with a visual **Slider** or **Stepper** component.                                 | 📋     |
+| User #2         | Multi-Goal Selection    | Users want "Hypertrophy + Strength".                                    | Update UI to allow multi-select and update Prompt logic to handle hybrid goals.            | 📋     |
+| Design Team     | Visual Polish           | The "Void" theme is too harsh/dark.                                     | Soften the background contrast and adjust accent colors.                                   | 📋     |
 
 ---
 
 ## 🏋️ Phase 3: Content Expansion — v1.3 "The Value"
 
-> **Priority:** HIGH (originally planned for later, pulled forward)
+> **Priority:** MEDIUM  
 > **Goal:** Increase plan variety and retention
 
 | Source | Issue | Description | Status |
@@ -53,27 +54,17 @@ This document outlines the development roadmap from **v1.0** (current) through *
 
 ---
 
-## 🚀 Phase 4: The Startup Pivot — v2.0 "The Upgrade"
+## 🔮 Phase 4: The Startup Pivot — v2.0 "The Upgrade"
 
 > **Priority:** FUTURE  
-> **Goal:** Transform from tool to platform  
-> **Prerequisite:** v1.x must be stable first
+> **Goal:** User Retention & Monetization (Requires Auth)
 
-| Source  | Feature              | Technical Requirement                                                                              |
-| ------- | -------------------- | -------------------------------------------------------------------------------------------------- |
-| README  | User Authentication  | Implement **Supabase Auth** (Google Login, Email/Password).                                        |
-| User #8 | Tracker & Progress   | New `user_logs` table to save daily workout completions. Matches README "History & Progress" item. |
-| User #1 | Diet Generator       | Entirely new AI prompt logic + new `foods` database table. Major feature expansion.                |
-| README  | Weekly Periodization | Move from single plan generation to **4-Week Progressive Overload Cycles**.                        |
-| Amrith  | Chat/Edit Feature    | Allow users to "talk" to their plan to swap exercises via conversational UI.                       |
-
----
-
-## 🗑️ Rejected Ideas
-
-| Source  | Suggestion         | Reason                                                                                                                                                    |
-| ------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| User #9 | Train Custom Model | **Rejected.** Too expensive and rigid. Our Context Injection approach is superior for this use case — faster iteration, lower cost, no training required. |
+| Source | Feature | Technical Requirement |
+| :--- | :--- | :--- |
+| **Friend** | **Custom Split Selection** | **Allow users to define specific muscles per day (e.g., Day 1: Chest).** |
+| User #8 | Tracker & History | Requires `user_logs` table & Supabase Auth. |
+| User #1 | Diet Generator | New AI Prompt + `foods` database. |
+| Amrith | Chat/Edit | Interface to "Swap" exercises via chat. |
 
 ---
 
@@ -88,12 +79,13 @@ v1.1 "The Patch" ─────────────────────
   │   • Timeout fixes (SQL Filter)
   │   • 4-day bug fix (Strict Prompt)
   │   • Days selector UI
-  │   • Data Expansion (30+ new exercises added from Kaggle) ⬅️ [Pulled from Phase 3]
+  │   • Data Expansion (30+ new exercises)
   │
-v1.2 "The Professional" ──────────────────────────────────── 📋 PLANNED
-  │   • Duration slider
-  │   • Multi-goal selection
-  │   • Visual polish
+v1.2 "The Professional" ──────────────────────────────────── 🚧 IN PROGRESS
+  │   • Mobile Layout Fix (Text Overlap)
+  │   • Readability Update (Font Size +10%)
+  │   • Duration Slider
+  │   • Multi-Goal Selection
   │
 v1.3 "The Value" ─────────────────────────────────────────── 📋 PLANNED
   │   • Exercise videos
