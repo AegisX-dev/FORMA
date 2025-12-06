@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/Forma.gif" alt="FORMA Demo" width="800">
+  <img src="assets/Forma.png" alt="FORMA Demo" width="800">
 </p>
 
 ---

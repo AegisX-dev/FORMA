@@ -16,13 +16,13 @@ Version 1.2 is a **UX-focused release** that transforms FORMA from a functional 
 
 ## ✨ New Features
 
-| Feature | Description | Status |
-|---------|-------------|--------|
-| 🎡 **Adaptive Duration Picker** | iOS-style drum wheel on mobile, horizontal slider on desktop | ✅ SHIPPED |
-| 🎯 **Multi-Goal Selection** | Select multiple goals (e.g., Hypertrophy + Strength) for hybrid training | ✅ SHIPPED |
-| 🌌 **Interactive Grid Background** | Cursor-tracking spotlight effect with CSS masking | ✅ SHIPPED |
-| 📱 **Mobile Readability** | Responsive fonts, tap-to-toggle tooltips, improved card layout | ✅ SHIPPED |
-| 📄 **High-Contrast PDF** | Larger fonts, darker text, readable on mobile screens | ✅ SHIPPED |
+| Feature                            | Description                                                              | Status     |
+| ---------------------------------- | ------------------------------------------------------------------------ | ---------- |
+| 🎡 **Adaptive Duration Picker**    | iOS-style drum wheel on mobile, horizontal slider on desktop             | ✅ SHIPPED |
+| 🎯 **Multi-Goal Selection**        | Select multiple goals (e.g., Hypertrophy + Strength) for hybrid training | ✅ SHIPPED |
+| 🌌 **Interactive Grid Background** | Cursor-tracking spotlight effect with CSS masking                        | ✅ SHIPPED |
+| 📱 **Mobile Readability**          | Responsive fonts, tap-to-toggle tooltips, improved card layout           | ✅ SHIPPED |
+| 📄 **High-Contrast PDF**           | Larger fonts, darker text, readable on mobile screens                    | ✅ SHIPPED |
 
 ---
 
@@ -33,6 +33,7 @@ Version 1.2 is a **UX-focused release** that transforms FORMA from a functional 
 New `DurationPicker.tsx` component with device-specific UX:
 
 **Mobile (Ghostly Scroll Wheel):**
+
 ```tsx
 // Fixed height constants for reliable scroll math
 const ITEM_HEIGHT = 64;     // h-16 = 4rem = 64px
@@ -51,6 +52,7 @@ container.scrollTo({ top: scrollTop, behavior: "auto" });
 ```
 
 **Desktop (Horizontal Slider):**
+
 ```tsx
 // Acid green fill track
 background: linear-gradient(to right, #D4FF00 0%, #D4FF00 ${fill}%, rgba(255,255,255,0.1) ${fill}%, ...)
@@ -63,6 +65,7 @@ background: linear-gradient(to right, #D4FF00 0%, #D4FF00 ${fill}%, rgba(255,255
 ### 2. Multi-Goal (Hybrid) Training
 
 **Frontend State Change:**
+
 ```typescript
 // Before (single goal)
 const [goal, setGoal] = useState<string>("HYPERTROPHY");
@@ -72,13 +75,14 @@ const [goals, setGoals] = useState<string[]>(["HYPERTROPHY"]);
 ```
 
 **Backend Prompt Logic:**
+
 ```typescript
 // Single goal
-"Goal: Hypertrophy"
+"Goal: Hypertrophy";
 
 // Multiple goals
-"Goal: Hybrid Training (Hypertrophy + Strength)"
-"Focus: Blend volume for size with heavy compound lifts for strength."
+"Goal: Hybrid Training (Hypertrophy + Strength)";
+"Focus: Blend volume for size with heavy compound lifts for strength.";
 ```
 
 **Impact:** Users can now train for multiple adaptations simultaneously.
@@ -95,7 +99,7 @@ container.style.setProperty("--x", `${e.clientX}px`);
 container.style.setProperty("--y", `${e.clientY}px`);
 
 // Spotlight reveal via CSS mask
-maskImage: `radial-gradient(circle 200px at var(--x) var(--y), black 0%, transparent 100%)`
+maskImage: `radial-gradient(circle 200px at var(--x) var(--y), black 0%, transparent 100%)`;
 ```
 
 **Impact:** Futuristic "scanning the void" effect — grid lines glow near cursor.
@@ -105,11 +109,13 @@ maskImage: `radial-gradient(circle 200px at var(--x) var(--y), black 0%, transpa
 ### 4. WorkoutCard Refactor
 
 **Tooltip Improvements:**
+
 - Solid `bg-paper` (#111111) background — no text bleed-through
 - `onClick` toggle for mobile (replaces buggy `:hover`)
 - Icon swaps to `X` when tooltip is open
 
 **Responsive Typography:**
+
 - Exercise name: `text-lg md:text-xl`
 - Specs: `text-sm md:text-xs` labels, `text-base md:text-sm` values
 
@@ -151,13 +157,13 @@ src/
 
 ## 📊 UX Metrics
 
-| Metric | v1.1 | v1.2 | Improvement |
-|--------|------|------|-------------|
-| Mobile Readability | Poor (small fonts) | Excellent | **✅ Fixed** |
-| Tooltip Usability | Buggy on touch | Tap-to-toggle | **✅ Fixed** |
-| Goal Flexibility | Single goal only | Multi-goal hybrid | **✅ New** |
-| Background | Static grid | Interactive spotlight | **✅ Premium** |
-| PDF Legibility | Low contrast | High contrast | **✅ Fixed** |
+| Metric             | v1.1               | v1.2                  | Improvement    |
+| ------------------ | ------------------ | --------------------- | -------------- |
+| Mobile Readability | Poor (small fonts) | Excellent             | **✅ Fixed**   |
+| Tooltip Usability  | Buggy on touch     | Tap-to-toggle         | **✅ Fixed**   |
+| Goal Flexibility   | Single goal only   | Multi-goal hybrid     | **✅ New**     |
+| Background         | Static grid        | Interactive spotlight | **✅ Premium** |
+| PDF Legibility     | Low contrast       | High contrast         | **✅ Fixed**   |
 
 ---
 

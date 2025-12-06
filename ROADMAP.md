@@ -31,12 +31,12 @@ This document outlines the development roadmap from **v1.0** (current) through *
 > **Goal:** Make the app feel premium  
 > **Status:** ✅ RELEASED (December 6, 2025)
 
-| Source      | Feature               | Implementation                                                                                                           | Status |
-| ----------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------ |
-| User #3     | Session Scroll Wheel  | Adaptive **Duration Picker** — iOS-style drum wheel (mobile) + horizontal slider (desktop).                              | ✅     |
-| User #2     | Multi-Goal Selection  | Allow users to select "Hypertrophy" AND "Strength" simultaneously. Hybrid training prompt logic.                         | ✅     |
-| Design Team | Interactive Grid      | Replace static background with **Cursor-Tracking Spotlight Grid** using CSS variables + mask-image.                      | ✅     |
-| README      | Mobile Responsiveness | Responsive fonts, tap-to-toggle tooltips, high-contrast PDF, improved WorkoutCard layout.                                | ✅     |
+| Source      | Feature               | Implementation                                                                                      | Status |
+| ----------- | --------------------- | --------------------------------------------------------------------------------------------------- | ------ |
+| User #3     | Session Scroll Wheel  | Adaptive **Duration Picker** — iOS-style drum wheel (mobile) + horizontal slider (desktop).         | ✅     |
+| User #2     | Multi-Goal Selection  | Allow users to select "Hypertrophy" AND "Strength" simultaneously. Hybrid training prompt logic.    | ✅     |
+| Design Team | Interactive Grid      | Replace static background with **Cursor-Tracking Spotlight Grid** using CSS variables + mask-image. | ✅     |
+| README      | Mobile Responsiveness | Responsive fonts, tap-to-toggle tooltips, high-contrast PDF, improved WorkoutCard layout.           | ✅     |
 
 ---
 
@@ -58,12 +58,12 @@ This document outlines the development roadmap from **v1.0** (current) through *
 > **Priority:** FUTURE  
 > **Goal:** User Retention & Monetization (Requires Auth)
 
-| Source | Feature | Technical Requirement |
-| :--- | :--- | :--- |
+| Source     | Feature                    | Technical Requirement                                                    |
+| :--------- | :------------------------- | :----------------------------------------------------------------------- |
 | **Friend** | **Custom Split Selection** | **Allow users to define specific muscles per day (e.g., Day 1: Chest).** |
-| User #8 | Tracker & History | Requires `user_logs` table & Supabase Auth. |
-| User #1 | Diet Generator | New AI Prompt + `foods` database. |
-| Amrith | Chat/Edit | Interface to "Swap" exercises via chat. |
+| User #8    | Tracker & History          | Requires `user_logs` table & Supabase Auth.                              |
+| User #1    | Diet Generator             | New AI Prompt + `foods` database.                                        |
+| Amrith     | Chat/Edit                  | Interface to "Swap" exercises via chat.                                  |
 
 ---
 
