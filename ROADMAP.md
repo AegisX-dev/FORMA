@@ -28,28 +28,15 @@ This document outlines the development roadmap from **v1.0** (current) through *
 ## 🎨 Phase 2: UX Polish — v1.2 "The Professional"
 
 > **Priority:** HIGH  
-<<<<<<< HEAD
 > **Goal:** Make the app feel premium  
 > **Status:** ✅ RELEASED (December 6, 2025)
 
-| Source      | Feature               | Implementation                                                                                                           | Status         |
-| ----------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------ | -------------- |
-| User #3     | Session Scroll Wheel  | Adaptive **Duration Picker** — iOS-style drum wheel (mobile) + horizontal slider (desktop).                              | ✅             |
-| User #2     | Multi-Goal Selection  | Allow users to select "Hypertrophy" AND "Strength" simultaneously. Hybrid training prompt logic.                         | ✅             |
-| Design Team | Interactive Grid      | Replace static background with **Cursor-Tracking Spotlight Grid** using CSS variables + mask-image.                      | ✅             |
-| README      | Mobile Responsiveness | Responsive fonts, tap-to-toggle tooltips, high-contrast PDF, improved WorkoutCard layout.                                | ✅             |
-=======
-> **Goal:** Fix usability issues and make the app feel "Premium"  
-> **Status:** 🚧 IN PROGRESS
-
-| Source          | Issue                   | Problem                                                                 | Solution                                                                                   | Status |
-| :-------------- | :---------------------- | :---------------------------------------------------------------------- | :----------------------------------------------------------------------------------------- | :----- |
-| **Mobile User** | **Mobile Overlap** | **Text overwrites itself on small screens and in PDF exports.** | **Responsiveness Fix:** Switch grid cols to 1 on mobile; fix PDF autoTable text wrapping.  | 🚧     |
-| **Mobile User** | **Small Fonts** | **Users report text is hard to read (too small).** | **Readability Bump:** Increase base font scale by 10% (`text-sm` → `text-base`).           | 🚧     |
-| User #3         | Session Scroll Wheel    | Text input for "Minutes" is ugly/hard to use.                           | Replace with a visual **Slider** or **Stepper** component.                                 | 📋     |
-| User #2         | Multi-Goal Selection    | Users want "Hypertrophy + Strength".                                    | Update UI to allow multi-select and update Prompt logic to handle hybrid goals.            | 📋     |
-| Design Team     | Visual Polish           | The "Void" theme is too harsh/dark.                                     | Soften the background contrast and adjust accent colors.                                   | 📋     |
->>>>>>> e41811d857374222a3f408998c35d01a5c2e050e
+| Source      | Feature               | Implementation                                                                                                           | Status |
+| ----------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------ |
+| User #3     | Session Scroll Wheel  | Adaptive **Duration Picker** — iOS-style drum wheel (mobile) + horizontal slider (desktop).                              | ✅     |
+| User #2     | Multi-Goal Selection  | Allow users to select "Hypertrophy" AND "Strength" simultaneously. Hybrid training prompt logic.                         | ✅     |
+| Design Team | Interactive Grid      | Replace static background with **Cursor-Tracking Spotlight Grid** using CSS variables + mask-image.                      | ✅     |
+| README      | Mobile Responsiveness | Responsive fonts, tap-to-toggle tooltips, high-contrast PDF, improved WorkoutCard layout.                                | ✅     |
 
 ---
 
@@ -93,11 +80,12 @@ v1.1 "The Patch" ─────────────────────
   │   • Days selector UI
   │   • Data Expansion (30+ new exercises)
   │
-v1.2 "The Professional" ──────────────────────────────────── 🚧 IN PROGRESS
-  │   • Mobile Layout Fix (Text Overlap)
-  │   • Readability Update (Font Size +10%)
-  │   • Duration Slider
-  │   • Multi-Goal Selection
+v1.2 "The Professional" ──────────────────────────────────── ✅ RELEASED
+  │   December 6, 2025
+  │   • Adaptive Duration Picker (mobile wheel + desktop slider)
+  │   • Multi-Goal Hybrid Training
+  │   • Interactive Grid Background
+  │   • Mobile Responsiveness & High-Contrast PDF
   │
 v1.3 "The Value" ─────────────────────────────────────────── 📋 PLANNED
   │   • Exercise videos

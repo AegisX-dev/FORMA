@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface DurationPickerProps {
   value: number;
@@ -10,6 +10,10 @@ interface DurationPickerProps {
   step?: number;
 }
 
+// Constants - must match CSS exactly
+const ITEM_HEIGHT = 64; // h-16 = 4rem = 64px
+const CONTAINER_HEIGHT = 256; // h-64 = 16rem = 256px
+
 export default function DurationPicker({
   value,
   onChange,
@@ -18,8 +22,12 @@ export default function DurationPicker({
   step = 5,
 }: DurationPickerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const isScrollingRef = useRef(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isUserScrolling = useRef(false);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number>(() => {
+    // Calculate initial index from value
+    return Math.round((value - min) / step);
+  });
 
   // Generate duration options
   const options: number[] = [];
@@ -27,71 +35,82 @@ export default function DurationPicker({
     options.push(i);
   }
 
-  const ITEM_HEIGHT = 64; // Height of each item in pixels (taller for mobile)
+  // Calculate padding to center first/last items
+  const paddingY = (CONTAINER_HEIGHT - ITEM_HEIGHT) / 2;
 
-  // Scroll to value on mount and when value changes externally
+  // FIX #1: Scroll to initial value on mount
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container || isScrollingRef.current) return;
-
-    const index = options.indexOf(value);
-    if (index !== -1) {
-      const scrollTop = index * ITEM_HEIGHT;
-      container.scrollTo({ top: scrollTop, behavior: "smooth" });
-    }
-  }, [value, options]);
-
-  // Handle scroll to detect center value
-  const handleScroll = useCallback(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    isScrollingRef.current = true;
+    // Calculate scroll position: (value - min) / step * itemHeight
+    const index = Math.round((value - min) / step);
+    const scrollTop = index * ITEM_HEIGHT;
+    
+    // Use setTimeout to ensure DOM is ready
+    setTimeout(() => {
+      container.scrollTo({ top: scrollTop, behavior: "auto" });
+      setActiveIndex(index);
+    }, 0);
+  }, []); // Only run on mount
+
+  // Scroll to value when it changes externally (not from user scroll)
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || isUserScrolling.current) return;
+
+    const index = Math.round((value - min) / step);
+    const scrollTop = index * ITEM_HEIGHT;
+    container.scrollTo({ top: scrollTop, behavior: "smooth" });
+    setActiveIndex(index);
+  }, [value, min, step]);
+
+  // FIX #2: Simple onScroll handler with reliable index calculation
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const container = e.currentTarget;
+    const scrollTop = container.scrollTop;
+    
+    // Calculate active index from scroll position
+    const newIndex = Math.round(scrollTop / ITEM_HEIGHT);
+    const clampedIndex = Math.max(0, Math.min(newIndex, options.length - 1));
+    
+    // Update visual highlight immediately
+    setActiveIndex(clampedIndex);
+    
+    // Mark as user scrolling
+    isUserScrolling.current = true;
 
     // Clear existing timeout
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
     }
 
-    // Debounce to detect when scrolling stops
-    timeoutRef.current = setTimeout(() => {
-      const scrollTop = container.scrollTop;
-      const centerIndex = Math.round(scrollTop / ITEM_HEIGHT);
-      const clampedIndex = Math.max(0, Math.min(centerIndex, options.length - 1));
+    // Debounce: Update value and snap when scrolling stops
+    scrollTimeoutRef.current = setTimeout(() => {
       const newValue = options[clampedIndex];
-
+      
       if (newValue !== value) {
         onChange(newValue);
       }
 
-      // Snap to center
+      // Snap to exact position
       container.scrollTo({
         top: clampedIndex * ITEM_HEIGHT,
         behavior: "smooth",
       });
 
-      isScrollingRef.current = false;
-    }, 100);
-  }, [options, value, onChange]);
+      isUserScrolling.current = false;
+    }, 150);
+  };
 
   // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
       }
     };
   }, []);
-
-  // Calculate which item is in center for styling (Mobile)
-  const getItemStyle = (optionValue: number) => {
-    const isSelected = optionValue === value;
-    return {
-      opacity: isSelected ? 1 : 0.25,
-      transform: isSelected ? "scale(1)" : "scale(0.7)",
-      color: isSelected ? "#ffffff" : "#888888",
-    };
-  };
 
   return (
     <>
@@ -100,7 +119,7 @@ export default function DurationPicker({
         <div className="relative flex items-center gap-3">
           {/* Holographic Drum Picker */}
           <div 
-            className="relative h-65 w-30 overflow-hidden"
+            className="relative h-64 w-32 overflow-hidden"
             style={{
               maskImage: "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
               WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
@@ -110,30 +129,30 @@ export default function DurationPicker({
             <div
               ref={containerRef}
               onScroll={handleScroll}
-              className="h-full overflow-y-auto scrollbar-hide scroll-smooth"
+              className="h-full overflow-y-auto scrollbar-hide"
               style={{
                 scrollSnapType: "y mandatory",
-                paddingTop: "112px", // (288 - 64) / 2
-                paddingBottom: "112px",
+                scrollBehavior: "smooth",
+                paddingTop: `${paddingY}px`,
+                paddingBottom: `${paddingY}px`,
               }}
             >
-              {options.map((opt) => {
-                const isActive = opt === value;
+              {options.map((opt, index) => {
+                const isActive = index === activeIndex;
                 return (
                   <div
                     key={opt}
-                    className={`h-16 flex items-center justify-end pr-8 font-display transition-all duration-300 cursor-pointer ${
+                    className={`h-16 flex items-center justify-center font-display transition-all duration-200 cursor-pointer snap-center ${
                       isActive 
-                        ? "text-5xl font-black text-white scale-110" 
+                        ? "text-5xl font-black text-white scale-110 opacity-100" 
                         : "text-3xl font-bold text-white/20 scale-90"
                     }`}
                     style={{
-                      scrollSnapAlign: "center",
                       filter: isActive ? "none" : "blur(1px)",
                     }}
                     onClick={() => {
                       onChange(opt);
-                      const index = options.indexOf(opt);
+                      setActiveIndex(index);
                       containerRef.current?.scrollTo({
                         top: index * ITEM_HEIGHT,
                         behavior: "smooth",

@@ -34,12 +34,20 @@ New `DurationPicker.tsx` component with device-specific UX:
 
 **Mobile (Ghostly Scroll Wheel):**
 ```tsx
+// Fixed height constants for reliable scroll math
+const ITEM_HEIGHT = 64;     // h-16 = 4rem = 64px
+const CONTAINER_HEIGHT = 256; // h-64 = 16rem = 256px
+
 // CSS masking for dissolving edges
 maskImage: "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)"
 
-// Active vs Inactive states
+// Active vs Inactive states (index-based tracking)
 Active:   text-5xl font-black text-white scale-110
 Inactive: text-3xl text-white/20 blur-[1px] scale-90
+
+// Mount scroll position fix
+const scrollTop = index * ITEM_HEIGHT;
+container.scrollTo({ top: scrollTop, behavior: "auto" });
 ```
 
 **Desktop (Horizontal Slider):**
