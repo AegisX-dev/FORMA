@@ -29,14 +29,15 @@ This document outlines the development roadmap from **v1.0** (current) through *
 ## 🎨 Phase 2: UX Polish — v1.2 "The Professional"
 
 > **Priority:** HIGH  
-> **Goal:** Make the app feel premium
+> **Goal:** Make the app feel premium  
+> **Status:** ✅ RELEASED (December 6, 2025)
 
-| Source      | Feature               | Implementation                                                                                                           |
-| ----------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| User #3     | Session Scroll Wheel  | Replace raw number input with a custom **Dial** or **Slider** component for session duration.                            |
-| User #2     | Multi-Goal Selection  | Allow users to select "Hypertrophy" AND "Strength" simultaneously. Update System Prompt to handle hybrid training logic. |
-| User #4, #5 | Visual Tweaks         | The "Void" aesthetic is too dark/harsh on some screens. Soften contrast and improve color grading.                       |
-| README      | Mobile Responsiveness | Ensure Slider and Cards render perfectly on iPhone SE and Android devices.                                               |
+| Source      | Feature               | Implementation                                                                                                           | Status         |
+| ----------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------ | -------------- |
+| User #3     | Session Scroll Wheel  | Adaptive **Duration Picker** — iOS-style drum wheel (mobile) + horizontal slider (desktop).                              | ✅             |
+| User #2     | Multi-Goal Selection  | Allow users to select "Hypertrophy" AND "Strength" simultaneously. Hybrid training prompt logic.                         | ✅             |
+| Design Team | Interactive Grid      | Replace static background with **Cursor-Tracking Spotlight Grid** using CSS variables + mask-image.                      | ✅             |
+| README      | Mobile Responsiveness | Responsive fonts, tap-to-toggle tooltips, high-contrast PDF, improved WorkoutCard layout.                                | ✅             |
 
 ---
 
@@ -45,11 +46,11 @@ This document outlines the development roadmap from **v1.0** (current) through *
 > **Priority:** HIGH (originally planned for later, pulled forward)
 > **Goal:** Increase plan variety and retention
 
-| Source | Issue | Description | Status |
-| :--- | :--- | :--- | :--- |
+| Source       | Issue              | Description                                                            | Status             |
+| :----------- | :----------------- | :--------------------------------------------------------------------- | :----------------- |
 | **User #11** | **More Exercises** | **Add 20+ exercises to cover gaps: Abs, Forearms, specific machines.** | **✅ DONE (v1.1)** |
-| User #6 | Demo Videos | Add "Watch" button linking to video tutorials. | 📋 Planned |
-| Internal | Admin Dashboard | UI to add exercises without SQL access. | 📋 Planned |
+| User #6      | Demo Videos        | Add "Watch" button linking to video tutorials.                         | 📋 Planned         |
+| Internal     | Admin Dashboard    | UI to add exercises without SQL access.                                | 📋 Planned         |
 
 ---
 

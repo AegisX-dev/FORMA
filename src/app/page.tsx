@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { animate } from "animejs";
 import { jsPDF } from "jspdf";
 import WorkoutCard from "@/components/WorkoutCard";
+import DurationPicker from "@/components/DurationPicker";
 
 interface Exercise {
   id: number;
@@ -37,7 +38,7 @@ const LOADING_SEQUENCE = [
 const DAYS_OPTIONS = [3, 4, 5, 6] as const;
 
 export default function Home() {
-  const [goal, setGoal] = useState<string>("HYPERTROPHY");
+  const [goals, setGoals] = useState<string[]>(["HYPERTROPHY"]);
   const [duration, setDuration] = useState(45);
   const [equipment, setEquipment] = useState<string[]>(["BARBELL"]);
   const [daysPerWeek, setDaysPerWeek] = useState(3);
@@ -51,8 +52,16 @@ export default function Home() {
   const loadingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleGoalSelect = (g: string) => {
-    console.log("Goal selected:", g);
-    setGoal(g);
+    console.log("Goal toggled:", g);
+    setGoals((prev) => {
+      // If already selected, remove it (but keep at least one)
+      if (prev.includes(g)) {
+        if (prev.length === 1) return prev; // Keep at least one goal
+        return prev.filter((goal) => goal !== g);
+      }
+      // Add the new goal
+      return [...prev, g];
+    });
   };
 
   const handleDurationChange = (value: number) => {
@@ -68,7 +77,7 @@ export default function Home() {
   };
 
   const handleGenerate = async () => {
-    console.log("Generate clicked with:", { goal, duration, equipment });
+    console.log("Generate clicked with:", { goals, duration, equipment });
     // Animate form out and hide it completely when done
     if (formRef.current) {
       const formElement = formRef.current;
@@ -99,7 +108,7 @@ export default function Home() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userInputs: {
-            goal: goal.toLowerCase(),
+            goals: goals.map((g) => g.toLowerCase()),
             duration: `${duration} minutes`,
             equipment: equipment.join(", ") || "Bodyweight",
             days: String(daysPerWeek),
@@ -170,91 +179,108 @@ export default function Home() {
   };
 
   const downloadPDF = (plan: WorkoutPlan) => {
-    const doc = new jsPDF();
+    const doc = new jsPDF({ orientation: "portrait" });
     const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 20;
+    const contentWidth = pageWidth - margin * 2;
     let yPosition = 20;
 
-    // Set white background (default)
-    doc.setFillColor(255, 255, 255);
-    doc.rect(0, 0, pageWidth, doc.internal.pageSize.getHeight(), "F");
+    // Helper function to check and add new page if needed
+    const checkNewPage = (requiredSpace: number) => {
+      if (yPosition + requiredSpace > pageHeight - 20) {
+        doc.addPage();
+        yPosition = 20;
+        return true;
+      }
+      return false;
+    };
 
-    // Header
+    // Header - HIGH CONTRAST
     doc.setFont("courier", "bold");
     doc.setFontSize(18);
-    doc.setTextColor(5, 5, 5);
+    doc.setTextColor(0, 0, 0);
     doc.text("FORMA // ARCHITECTED BLUEPRINT", pageWidth / 2, yPosition, { align: "center" });
-    yPosition += 15;
+    yPosition += 14;
 
     // Divider line
     doc.setDrawColor(200, 200, 200);
-    doc.line(20, yPosition, pageWidth - 20, yPosition);
-    yPosition += 15;
-
-    // Table headers
-    doc.setFont("courier", "bold");
-    doc.setFontSize(10);
-    doc.setTextColor(100, 100, 100);
-    doc.text("EXERCISE", 20, yPosition);
-    doc.text("SETS", 110, yPosition);
-    doc.text("REPS", 135, yPosition);
-    doc.text("REST", 165, yPosition);
-    yPosition += 8;
+    doc.line(margin, yPosition, pageWidth - margin, yPosition);
+    yPosition += 14;
 
     // Loop through days
     plan.schedule.forEach((day) => {
-      // Check if we need a new page
-      if (yPosition > 260) {
-        doc.addPage();
-        yPosition = 20;
-      }
+      checkNewPage(50);
 
-      // Day header
+      // Day header - BOLD, LARGE, BLACK
       doc.setFont("courier", "bold");
-      doc.setFontSize(12);
-      doc.setTextColor(5, 5, 5);
-      yPosition += 5;
-      doc.text(day.day_name.toUpperCase(), 20, yPosition);
-      yPosition += 2;
-      doc.setDrawColor(212, 255, 0); // Acid color
-      doc.setLineWidth(0.5);
-      doc.line(20, yPosition, pageWidth - 20, yPosition);
+      doc.setFontSize(14);
+      doc.setTextColor(0, 0, 0);
+      doc.text(day.day_name.toUpperCase(), margin, yPosition);
+      yPosition += 4;
+      doc.setDrawColor(212, 255, 0);
+      doc.setLineWidth(0.8);
+      doc.line(margin, yPosition, pageWidth - margin, yPosition);
+      yPosition += 10;
+
+      // Column headers - DARK GREY BACKGROUND
+      doc.setFillColor(220, 220, 220);
+      doc.rect(margin, yPosition - 4, contentWidth, 8, "F");
+      doc.setFont("courier", "bold");
+      doc.setFontSize(10);
+      doc.setTextColor(0, 0, 0);
+      doc.text("EXERCISE", margin + 2, yPosition);
+      doc.text("SETS", margin + 95, yPosition);
+      doc.text("REPS", margin + 115, yPosition);
+      doc.text("REST", margin + 140, yPosition);
       yPosition += 10;
 
       // Exercises
       day.exercises.forEach((exercise) => {
-        // Check if we need a new page
-        if (yPosition > 270) {
-          doc.addPage();
-          yPosition = 20;
-        }
-
-        // Exercise row
-        doc.setFont("courier", "normal");
-        doc.setFontSize(10);
-        doc.setTextColor(30, 30, 30);
-        
         const exerciseName = exercise.name || `Exercise ${exercise.id}`;
-        doc.text(exerciseName.substring(0, 25), 20, yPosition);
-        doc.text(String(exercise.sets), 110, yPosition);
-        doc.text(exercise.reps, 135, yPosition);
-        doc.text("90s", 165, yPosition);
-        yPosition += 6;
-
-        // Science note (italicized)
         const scienceNote = exercise.science_note || exercise.note;
+
+        // Calculate space needed for this exercise
+        const noteLines = scienceNote 
+          ? doc.splitTextToSize(`// ${scienceNote}`, contentWidth - 10)
+          : [];
+        const exerciseHeight = 10 + (noteLines.length * 5) + 8;
+
+        checkNewPage(exerciseHeight);
+
+        // Exercise row - BLACK TEXT, LARGER FONT
+        doc.setFont("courier", "normal");
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0);
+        
+        // Wrap exercise name if too long
+        const nameMaxWidth = 88;
+        const wrappedName = doc.splitTextToSize(exerciseName, nameMaxWidth);
+        doc.text(wrappedName, margin + 2, yPosition);
+        
+        doc.setFont("courier", "bold");
+        doc.text(String(exercise.sets), margin + 95, yPosition);
+        doc.text(exercise.reps, margin + 115, yPosition);
+        doc.text("90s", margin + 140, yPosition);
+        doc.text(exercise.reps, margin + 115, yPosition);
+        doc.text("90s", margin + 140, yPosition);
+        
+        // Adjust yPosition based on wrapped name height
+        yPosition += Math.max(wrappedName.length * 5, 6);
+
+        // Science note (on new line, indented) - DARKER FOR READABILITY
         if (scienceNote) {
           doc.setFont("courier", "italic");
-          doc.setFontSize(8);
-          doc.setTextColor(120, 120, 120);
-          const noteLines = doc.splitTextToSize(`// ${scienceNote}`, pageWidth - 50);
-          doc.text(noteLines, 25, yPosition);
+          doc.setFontSize(9);
+          doc.setTextColor(60, 60, 60);
+          doc.text(noteLines, margin + 5, yPosition);
           yPosition += noteLines.length * 4 + 4;
         }
 
-        yPosition += 4;
+        yPosition += 5;
       });
 
-      yPosition += 8;
+      yPosition += 6;
     });
 
     // Footer with timestamp
@@ -266,10 +292,11 @@ export default function Home() {
       minute: "2-digit",
     });
     
+    // Add footer to last page
     doc.setFont("courier", "normal");
     doc.setFontSize(8);
     doc.setTextColor(150, 150, 150);
-    doc.text(`Generated on ${timestamp}`, pageWidth / 2, 285, { align: "center" });
+    doc.text(`Generated on ${timestamp}`, pageWidth / 2, pageHeight - 10, { align: "center" });
 
     // Save the PDF
     doc.save("FORMA_Blueprint.pdf");
@@ -277,13 +304,13 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-void text-white">
-      <div className="mx-auto max-w-5xl px-6 py-16">
+      <div className="mx-auto max-w-5xl px-4 py-12 md:px-6 md:py-16">
         {/* Header */}
         <header className="mb-20">
           <h1 className="font-display text-7xl font-bold uppercase tracking-tighter text-white md:text-8xl">
             FORMA
           </h1>
-          <p className="mt-2 font-mono text-xs uppercase tracking-widest text-concrete">
+          <p className="mt-2 font-mono text-sm uppercase tracking-widest text-concrete">
             Sculpted by Science. Architected by AI.
           </p>
         </header>
@@ -292,7 +319,7 @@ export default function Home() {
         {loading && (
           <div className="flex min-h-[400px] items-center justify-center">
             <div className="text-center">
-              <p className="font-mono text-sm uppercase tracking-widest text-acid animate-pulse">
+              <p className="font-mono text-base uppercase tracking-widest text-acid animate-pulse">
                 {loadingText}
               </p>
               <div className="mt-4 flex justify-center gap-1">
@@ -307,17 +334,17 @@ export default function Home() {
         {/* Results Section */}
         {showResults && workoutPlan && !loading && (
           <div ref={resultsRef} className="opacity-0">
-            <div className="flex items-center justify-between mb-12">
+            <div className="flex items-center justify-between mb-12 flex-wrap gap-4">
               <button
                 onClick={handleReset}
-                className="font-mono text-xs uppercase tracking-widest text-concrete hover:text-acid transition-colors"
+                className="font-mono text-sm uppercase tracking-widest text-concrete hover:text-acid transition-colors"
               >
                 ← NEW PROTOCOL
               </button>
               <button
                 type="button"
                 onClick={() => downloadPDF(workoutPlan)}
-                className="border border-white/30 bg-transparent px-6 py-2 font-mono text-xs uppercase tracking-widest text-white transition-all hover:border-acid hover:text-acid"
+                className="border border-white/30 bg-transparent px-6 py-2 font-mono text-sm uppercase tracking-widest text-white transition-all hover:border-acid hover:text-acid"
               >
                 DOWNLOAD BLUEPRINT
               </button>
@@ -326,10 +353,10 @@ export default function Home() {
             <div className="space-y-16">
               {workoutPlan.schedule.map((day, dayIndex) => (
                 <section key={dayIndex}>
-                  <h2 className="font-display text-3xl font-bold uppercase tracking-tight text-white mb-6 pb-4 border-b border-concrete/20">
+                  <h2 className="font-display text-2xl md:text-3xl font-bold uppercase tracking-tight text-white mb-6 pb-4 border-b border-concrete/20">
                     {day.day_name}
                   </h2>
-                  <div className="space-y-0">
+                  <div className="grid grid-cols-1 gap-6">
                     {day.exercises.map((exercise, exIndex) => (
                       <WorkoutCard
                         key={exIndex}
@@ -351,56 +378,54 @@ export default function Home() {
         {/* Form Section */}
         {!showResults && !loading && (
           <div ref={formRef} className="space-y-16">
-            {/* Goal Selection */}
+            {/* Goal Selection - Multi-Select */}
             <section>
-              <label className="block font-mono text-xs uppercase tracking-widest text-acid mb-6">
-                01 — SELECT GOAL
+              <label className="block font-mono text-sm uppercase tracking-widest text-acid mb-6">
+                01 — SELECT GOAL(S)
               </label>
               <div className="flex flex-wrap gap-6">
-                {GOALS.map((g) => (
-                  <button
-                    key={g}
-                    type="button"
-                    onClick={() => handleGoalSelect(g)}
-                    className={`px-4 py-2 font-display text-3xl font-bold uppercase tracking-tight transition-all md:text-4xl border-2 ${
-                      goal === g
-                        ? "text-acid border-acid bg-acid/10"
-                        : "text-concrete/40 border-transparent hover:text-concrete/70 hover:border-concrete/20"
-                    }`}
-                  >
-                    {g}
-                  </button>
-                ))}
+                {GOALS.map((g) => {
+                  const isSelected = goals.includes(g);
+                  return (
+                    <button
+                      key={g}
+                      type="button"
+                      onClick={() => handleGoalSelect(g)}
+                      className={`px-4 py-2 font-display text-3xl font-bold uppercase tracking-tight transition-all md:text-4xl border-2 ${
+                        isSelected
+                          ? "text-acid border-acid bg-acid/10"
+                          : "text-concrete/40 border-transparent hover:text-concrete/70 hover:border-concrete/20"
+                      }`}
+                    >
+                      {g}
+                    </button>
+                  );
+                })}
               </div>
+              {goals.length > 1 && (
+                <p className="mt-4 font-mono text-xs text-acid/60 uppercase tracking-wider">
+                  Hybrid Mode: {goals.join(" + ")}
+                </p>
+              )}
             </section>
 
-            {/* Duration Selection */}
+            {/* Duration Selection - Drum Picker */}
             <section>
-              <label className="block font-mono text-xs uppercase tracking-widest text-acid mb-6">
+              <label className="block font-mono text-sm uppercase tracking-widest text-acid mb-6">
                 02 — SESSION LENGTH
               </label>
-              <div className="flex items-end gap-4">
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  value={duration.toString()}
-                  onChange={(e) => {
-                    const val = e.target.value.replace(/^0+/, '') || '0';
-                    const num = parseInt(val, 10);
-                    if (!isNaN(num) && num >= 0 && num <= 180) {
-                      handleDurationChange(num);
-                    }
-                  }}
-                  className="font-display text-7xl font-bold text-acid md:text-8xl border-b-2 border-acid pb-2 bg-transparent w-32 md:w-40 outline-none focus:border-white text-center"
-                />
-                <span className="font-mono text-sm text-concrete mb-4">MIN</span>
-              </div>
+              <DurationPicker
+                value={duration}
+                onChange={handleDurationChange}
+                min={20}
+                max={120}
+                step={5}
+              />
             </section>
 
             {/* Frequency Selection */}
             <section>
-              <label className="block font-mono text-xs uppercase tracking-widest text-acid mb-6">
+              <label className="block font-mono text-sm uppercase tracking-widest text-acid mb-6">
                 03 — FREQUENCY
               </label>
               <div className="flex flex-wrap gap-3">
@@ -414,7 +439,7 @@ export default function Home() {
                       color: daysPerWeek === d ? '#050505' : '#888888',
                       borderColor: daysPerWeek === d ? '#D4FF00' : 'rgba(136, 136, 136, 0.3)',
                     }}
-                    className="border-2 px-6 py-3 font-mono text-sm uppercase tracking-widest transition-all font-bold"
+                    className="border-2 px-6 py-3 font-mono text-base uppercase tracking-widest transition-all font-bold"
                   >
                     {d} DAYS
                   </button>
@@ -424,7 +449,7 @@ export default function Home() {
 
             {/* Equipment Selection */}
             <section>
-              <label className="block font-mono text-xs uppercase tracking-widest text-acid mb-6">
+              <label className="block font-mono text-sm uppercase tracking-widest text-acid mb-6">
                 04 — EQUIPMENT
               </label>
               <div className="flex flex-wrap gap-3">
@@ -438,7 +463,7 @@ export default function Home() {
                       color: equipment.includes(item) ? '#050505' : '#888888',
                       borderColor: equipment.includes(item) ? '#D4FF00' : 'rgba(136, 136, 136, 0.3)',
                     }}
-                    className="border-2 px-6 py-3 font-mono text-xs uppercase tracking-widest transition-all font-bold"
+                    className="border-2 px-6 py-3 font-mono text-sm uppercase tracking-widest transition-all font-bold"
                   >
                     {item}
                   </button>

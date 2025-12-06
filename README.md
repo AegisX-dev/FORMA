@@ -3,7 +3,7 @@
 > Sculpted by Science. Architected by AI.
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.1-acid?style=flat-square" alt="Version 1.1">
+  <img src="https://img.shields.io/badge/version-1.2-acid?style=flat-square" alt="Version 1.2">
   <img src="https://img.shields.io/badge/status-live-brightgreen?style=flat-square" alt="Status: Live">
   <img src="https://img.shields.io/badge/security-patched-blue?style=flat-square" alt="Security: Patched">
 </p>
@@ -12,7 +12,7 @@
   <strong>Science-backed fitness programs generated in seconds.</strong>
   <br><br>
   <a href="https://forma-two.vercel.app/">🔗 Live Demo</a> · 
-  <a href="VERSION-1.1.md">📋 v1.1 Release Notes</a> · 
+  <a href="VERSION-1.2.md">📋 v1.2 Release Notes</a> · 
   <a href="ROADMAP.md">🗺️ Roadmap</a> ·
   <a href="SECURITY.md">🔒 Security</a>
 </p>
@@ -128,19 +128,22 @@ src/
 
 ## ⚡ Features
 
-- **Goal Selection** — Hypertrophy, Strength, or Endurance
+- **Multi-Goal Selection** — Hypertrophy, Strength, Endurance, or Hybrid combinations
+- **Adaptive Duration Picker** — iOS-style drum wheel (mobile) + slider (desktop)
 - **Frequency Control** — Choose 3, 4, 5, or 6 training days per week
 - **Equipment Filtering** — Plans adapt to your available gear
+- **Interactive Background** — Cursor-tracking spotlight grid effect
 - **Smart Programming** — AI selects exercises from curated database
-- **Science Notes** — Hover to see why each exercise is included
-- **PDF Export** — Download your blueprint for offline use
+- **Science Notes** — Tap to see why each exercise is included
+- **PDF Export** — High-contrast blueprint for offline use
 
-## 📈 What's New in v1.1
+## 📈 What's New in v1.2
 
-- ⚡ **80% faster** — Response time reduced from 40s to ~8s
-- 🎯 **Days selector** — Choose your training frequency
-- 🔧 **Bug fixes** — Scroll issues, day count logic, equipment filtering
-- 🔒 **Security patch** — CVE-2025-55182 (Critical RCE vulnerability patched)
+- 🎡 **Adaptive Duration Picker** — Ghostly scroll wheel on mobile, slider on desktop
+- 🎯 **Multi-Goal Training** — Select multiple goals for hybrid programming
+- 🌌 **Interactive Grid** — Cursor-tracking spotlight background effect
+- 📱 **Mobile Polish** — Responsive fonts, tap-to-toggle tooltips
+- 📄 **High-Contrast PDF** — Larger fonts, darker text, gym-ready
 
 ---
 

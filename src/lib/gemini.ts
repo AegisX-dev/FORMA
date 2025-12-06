@@ -11,7 +11,7 @@ export const genAI = new GoogleGenerativeAI(apiKey);
 export const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
 interface UserInputs {
-  goal: string;
+  goals: string[];
   duration: string;
   equipment: string;
   days: string;
@@ -21,6 +21,15 @@ export function generateWorkoutPrompt(
   userInputs: UserInputs,
   availableExercises: string
 ): string {
+  // Format goal string based on single or multiple goals
+  const goalText = userInputs.goals.length > 1
+    ? `Hybrid Training (${userInputs.goals.map(g => g.charAt(0).toUpperCase() + g.slice(1)).join(" + ")})`
+    : userInputs.goals[0].charAt(0).toUpperCase() + userInputs.goals[0].slice(1);
+  
+  const goalFocus = userInputs.goals.length > 1
+    ? "Focus: Blend volume for size with heavy compound lifts for strength. Balance hypertrophy rep ranges (8-12) with strength rep ranges (3-6) across the program."
+    : `Focus: Optimize for ${userInputs.goals[0]} training principles.`;
+
   return `
 ROLE: You are an Expert Strength Coach with deep knowledge of exercise science, periodization, and program design.
 
@@ -29,7 +38,8 @@ The following is the ONLY list of exercises you may select from. Each exercise h
 ${availableExercises}
 
 USER CONSTRAINTS:
-- Goal: ${userInputs.goal}
+- Goal: ${goalText}
+- ${goalFocus}
 - Session Duration: ${userInputs.duration}
 - Available Equipment: ${userInputs.equipment}
 - Training Days Per Week: ${userInputs.days}

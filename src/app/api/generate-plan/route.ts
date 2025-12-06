@@ -47,14 +47,6 @@ export async function POST(request: NextRequest) {
       .select("readable_id, name, target_muscle, equipment, science_note")
       .overlaps("equipment", formattedEquipment);
 
-    // Debug logging
-    console.log("=== EXERCISE FILTER DEBUG ===");
-    console.log("Raw equipment:", userEquipment);
-    console.log("Formatted equipment:", formattedEquipment);
-    console.log("Exercises found:", exercises?.length ?? 0);
-    console.log("Exercise names:", exercises?.map(ex => ex.name) ?? []);
-    console.log("=============================");
-
     if (dbError) {
       return NextResponse.json(
         { error: "Database error", details: dbError.message },
