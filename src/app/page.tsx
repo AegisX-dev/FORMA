@@ -5,6 +5,7 @@ import { animate } from "animejs";
 import { jsPDF } from "jspdf";
 import WorkoutCard from "@/components/WorkoutCard";
 import DurationPicker from "@/components/DurationPicker";
+import IntelLoader from "@/components/IntelLoader";
 
 interface Exercise {
   id: number;
@@ -26,14 +27,6 @@ interface WorkoutPlan {
 
 const GOALS = ["HYPERTROPHY", "STRENGTH", "ENDURANCE"] as const;
 const EQUIPMENT = ["BARBELL", "DUMBBELL", "CABLES", "BODYWEIGHT"] as const;
-const LOADING_SEQUENCE = [
-  "CONNECTING TO NEURAL NET...",
-  "ANALYZING BIOMETRICS...",
-  "FETCHING RESEARCH DATA...",
-  "CALCULATING VOLUME LOAD...",
-  "OPTIMIZING REST INTERVALS...",
-  "ASSEMBLING BLUEPRINT...",
-];
 
 const DAYS_OPTIONS = [3, 4, 5, 6] as const;
 
@@ -43,13 +36,13 @@ export default function Home() {
   const [equipment, setEquipment] = useState<string[]>(["BARBELL"]);
   const [daysPerWeek, setDaysPerWeek] = useState(3);
   const [loading, setLoading] = useState(false);
-  const [loadingText, setLoadingText] = useState("INITIALIZING SYSTEM...");
   const [workoutPlan, setWorkoutPlan] = useState<WorkoutPlan | null>(null);
   const [showResults, setShowResults] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const formRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
-  const loadingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleGoalSelect = (g: string) => {
     console.log("Goal toggled:", g);
@@ -93,14 +86,7 @@ export default function Home() {
     }
 
     setLoading(true);
-    setLoadingText("INITIALIZING SYSTEM...");
-
-    // Start the loading sequence
-    let sequenceIndex = 0;
-    loadingIntervalRef.current = setInterval(() => {
-      setLoadingText(LOADING_SEQUENCE[sequenceIndex % LOADING_SEQUENCE.length]);
-      sequenceIndex++;
-    }, 1800);
+    setIsError(false);
 
     try {
       const response = await fetch("/api/generate-plan", {
@@ -115,6 +101,14 @@ export default function Home() {
           },
         }),
       });
+
+      if (!response.ok) {
+        // Check status code before throwing to set appropriate message
+        if (response.status === 429) {
+          throw new Error("RATE_LIMIT");
+        }
+        throw new Error(`API error: ${response.status}`);
+      }
 
       const data = await response.json();
       setWorkoutPlan(data);
@@ -137,12 +131,22 @@ export default function Home() {
       }, 100);
     } catch (error) {
       console.error("Error generating plan:", error);
-    } finally {
-      // Clear the loading interval
-      if (loadingIntervalRef.current) {
-        clearInterval(loadingIntervalRef.current);
-        loadingIntervalRef.current = null;
+      setIsError(true);
+      
+      // Check if it's a rate limit error (429)
+      if (error instanceof Error && (error.message === "RATE_LIMIT" || error.message.includes("429"))) {
+        setErrorMessage("⚠️ AI System Busy. Please wait 60s and try again.");
+      } else {
+        setErrorMessage("Something went wrong. Please try again.");
       }
+      
+      // Show form again so user can retry
+      if (formRef.current) {
+        formRef.current.style.display = "block";
+        formRef.current.style.opacity = "1";
+        formRef.current.style.transform = "translateY(0)";
+      }
+    } finally {
       setLoading(false);
     }
   };
@@ -315,21 +319,17 @@ export default function Home() {
           </p>
         </header>
 
-        {/* Loading State */}
-        {loading && (
-          <div className="flex min-h-[400px] items-center justify-center">
-            <div className="text-center">
-              <p className="font-mono text-base uppercase tracking-widest text-acid animate-pulse">
-                {loadingText}
-              </p>
-              <div className="mt-4 flex justify-center gap-1">
-                <span className="h-2 w-2 bg-acid animate-pulse" style={{ animationDelay: "0ms" }}></span>
-                <span className="h-2 w-2 bg-acid animate-pulse" style={{ animationDelay: "150ms" }}></span>
-                <span className="h-2 w-2 bg-acid animate-pulse" style={{ animationDelay: "300ms" }}></span>
-              </div>
-            </div>
+        {/* Error State */}
+        {isError && !loading && (
+          <div className="mb-8 border border-red-500/50 bg-red-500/10 px-6 py-4">
+            <p className="font-mono text-sm uppercase tracking-widest text-red-400">
+              {errorMessage || "Something went wrong. Please try again."}
+            </p>
           </div>
         )}
+
+        {/* Loading State - Intel Loader */}
+        {loading && <IntelLoader goals={goals} />}
 
         {/* Results Section */}
         {showResults && workoutPlan && !loading && (
@@ -351,26 +351,30 @@ export default function Home() {
             </div>
 
             <div className="space-y-16">
-              {workoutPlan.schedule.map((day, dayIndex) => (
-                <section key={dayIndex}>
-                  <h2 className="font-display text-2xl md:text-3xl font-bold uppercase tracking-tight text-white mb-6 pb-4 border-b border-concrete/20">
-                    {day.day_name}
-                  </h2>
-                  <div className="grid grid-cols-1 gap-6">
-                    {day.exercises.map((exercise, exIndex) => (
-                      <WorkoutCard
-                        key={exIndex}
-                        index={exIndex}
-                        exerciseName={exercise.name || `Exercise ${exercise.id}`}
-                        sets={exercise.sets}
-                        reps={exercise.reps}
-                        rest="90s"
-                        scienceNote={exercise.science_note || exercise.note}
-                      />
-                    ))}
-                  </div>
-                </section>
-              ))}
+              {Array.isArray(workoutPlan.schedule) && workoutPlan.schedule.length > 0 ? (
+                workoutPlan.schedule.map((day, dayIndex) => (
+                  <section key={dayIndex}>
+                    <h2 className="font-display text-2xl md:text-3xl font-bold uppercase tracking-tight text-white mb-6 pb-4 border-b border-concrete/20">
+                      {day.day_name}
+                    </h2>
+                    <div className="grid grid-cols-1 gap-6">
+                      {Array.isArray(day.exercises) && day.exercises.length > 0 ? (
+                        day.exercises.map((exercise, exIndex) => (
+                          <WorkoutCard
+                            key={exIndex}
+                            index={exIndex}
+                            exerciseName={exercise.name || `Exercise ${exercise.id}`}
+                            sets={exercise.sets}
+                            reps={exercise.reps}
+                            rest="90s"
+                            scienceNote={exercise.science_note || exercise.note}
+                          />
+                        ))
+                      ) : null}
+                    </div>
+                  </section>
+                ))
+              ) : null}
             </div>
           </div>
         )}

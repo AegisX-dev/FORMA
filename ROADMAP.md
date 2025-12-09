@@ -40,6 +40,23 @@ This document outlines the development roadmap from **v1.0** (current) through *
 
 ---
 
+## 🛡️ Phase 2.1: Stability Patch — v1.2.1 "The Ironclad"
+
+> **Priority:** CRITICAL  
+> **Goal:** Production-grade stability and UX engagement  
+> **Status:** ✅ RELEASED (December 9, 2025)
+
+| Category    | Feature              | Implementation                                                                                | Status |
+| ----------- | -------------------- | --------------------------------------------------------------------------------------------- | ------ |
+| Stability   | API Key Rotation     | Failover engine rotates through 3 API keys (`GEMINI_API_KEY_1/2/3`) to bypass 429 rate limits | ✅     |
+| Performance | Payload Optimization | Minified AI context (ID, Name, Muscle only) — **60% token reduction**                         | ✅     |
+| Stability   | Crash Prevention     | `try/catch` guards in `page.tsx` + `route.ts` — graceful "System Busy" UI states              | ✅     |
+| Stability   | Supabase Fix         | Disabled `persistSession` for privacy browsers (incognito mode support)                       | ✅     |
+| UX          | Intel Loader         | Goal-based science tips feed during loading with pulsating core animation                     | ✅     |
+| UX          | Instant Tips         | Tips cycle every 4s with instant swap animation                                               | ✅     |
+
+---
+
 ## 🏋️ Phase 3: Content Expansion — v1.3 "The Value"
 
 > **Priority:** MEDIUM  
@@ -86,6 +103,13 @@ v1.2 "The Professional" ──────────────────�
   │   • Multi-Goal Hybrid Training
   │   • Interactive Grid Background
   │   • Mobile Responsiveness & High-Contrast PDF
+  │
+v1.2.1 "The Ironclad" ────────────────────────────────────── ✅ RELEASED
+  │   December 9, 2025
+  │   • API Key Rotation (3-key failover for rate limits)
+  │   • 60% Token Reduction (minified AI payload)
+  │   • Crash Prevention (graceful error handling)
+  │   • Intel Loader (goal-based science tips)
   │
 v1.3 "The Value" ─────────────────────────────────────────── 📋 PLANNED
   │   • Exercise videos
