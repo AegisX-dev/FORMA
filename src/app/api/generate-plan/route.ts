@@ -112,9 +112,9 @@ export async function POST(request: NextRequest) {
 
     // Step D: API Key Rotation & Failover System
     const apiPool: ApiConfig[] = [
-      { key: process.env.GEMINI_API_KEY_1, model: "gemini-2.5-flash", name: "Key 1 (Primary)" },
-      { key: process.env.GEMINI_API_KEY_2, model: "gemini-2.5-flash", name: "Key 2 (Backup)" },
-      { key: process.env.GEMINI_API_KEY_3, model: "gemini-2.5-flash", name: "Key 3 (Backup)" },
+      { key: process.env.GEMINI_API_KEY_1, model: "gemini-2.5-flash-lite", name: "Key 1 (Primary)" },
+      { key: process.env.GEMINI_API_KEY_2, model: "gemini-2.5-flash-lite", name: "Key 2 (Backup)" },
+      { key: process.env.GEMINI_API_KEY_3, model: "gemini-2.5-flash-lite", name: "Key 3 (Backup)" },
     ].filter(config => config.key); // Only include configs with valid keys
 
     if (apiPool.length === 0) {

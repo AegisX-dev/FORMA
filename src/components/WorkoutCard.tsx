@@ -24,7 +24,7 @@ export default function WorkoutCard({
 
   return (
     <div
-      className="relative border-t border-concrete/20 bg-paper p-5 md:px-5 md:py-7 animate-in fade-in slide-in-from-bottom-2"
+      className="relative border-t border-concrete/20 bg-paper p-5 md:px-5 md:py-7 rounded-sm animate-in fade-in slide-in-from-bottom-2"
       style={{ animationDelay: `${index * 75}ms`, animationFillMode: "both" }}
     >
       <div className="flex items-start justify-between gap-4">
@@ -51,7 +51,7 @@ export default function WorkoutCard({
       {/* Tooltip - 100% Opaque, Tap-Only */}
       {isOpen && (
         <div 
-          className="absolute right-4 top-12 z-50 w-[220px] md:w-72 border-l-2 border-acid px-4 py-3 shadow-xl"
+          className="absolute right-4 top-12 z-50 w-[220px] md:w-72 border-l-2 border-acid px-4 py-3 shadow-xl rounded-sm"
           style={{ backgroundColor: "#111111" }}
         >
           <p className="font-mono text-sm md:text-xs leading-relaxed text-concrete">

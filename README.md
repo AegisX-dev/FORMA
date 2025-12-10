@@ -74,13 +74,24 @@ graph TD
 
 ## 🛠 Tech Stack
 
-| Layer      | Technology               |
-| ---------- | ------------------------ |
-| Framework  | Next.js 14+ (App Router) |
-| Styling    | Tailwind CSS             |
-| Database   | Supabase                 |
-| AI         | Google Gemini            |
-| Animations | Anime.js                 |
+| Layer      | Technology                                                                                                                                                                  |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Framework  | Next.js 14+ (App Router)                                                                                                                                                    |
+| Styling    | Tailwind CSS v4                                                                                                                                                             |
+| Database   | Supabase                                                                                                                                                                    |
+| AI         | **Gemini 2.5 Flash Lite** — Response latency reduced from ~25s to ~10s. Flash Lite provides superior throughput for JSON tasks vs standard Flash models hitting 429 limits. |
+| Animations | Anime.js                                                                                                                                                                    |
+
+## 🎨 Design System: Refined Brutalism
+
+FORMA employs a **Refined Brutalism** aesthetic—raw, industrial foundations softened with intentional micro-details:
+
+| Element         | Style                            | Rationale                                                                                |
+| --------------- | -------------------------------- | ---------------------------------------------------------------------------------------- |
+| Cards & Buttons | `rounded-sm` (2px)               | Micro-radii based on user feedback (Mahesh). Softens edges without losing brutalist DNA. |
+| Typography      | High contrast, monospace accents | Technical, blueprint feel.                                                               |
+| Animations      | Smooth easing, subtle pulses     | Adds life without compromising the industrial vibe.                                      |
+| Colors          | Acid green accent on dark base   | High-energy, gym-culture aesthetic.                                                      |
 
 ## 🚀 Quick Start
 
@@ -145,9 +156,11 @@ src/
 
 - 🛡️ **API Key Rotation** — Automatic failover across 3 keys for rate limit resilience
 - ⚡ **60% Faster** — Minified AI payload reduces token usage dramatically
+- 🚀 **Gemini 2.5 Flash Lite** — Model upgrade reduces latency from ~25s to ~10s
 - 🧠 **Intel Loader** — Goal-based science tips feed during generation
 - 🔒 **Crash Prevention** — Graceful error handling, no more white screens
 - 🌐 **Privacy Browser Support** — Works in incognito/strict privacy modes
+- 🎨 **Refined Brutalism** — Micro-radii design polish per user feedback
 
 ---
 

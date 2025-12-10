@@ -20,7 +20,13 @@ All notable changes to FORMA will be documented in this file.
 
 - Refactored AI context injection to "minify" Supabase data
 - Now sends only `{id, name, muscle}` instead of full exercise objects
-- **Result:** ~60% token reduction, faster `gemini-2.5-flash` responses
+- **Result:** ~60% token reduction, faster responses
+
+#### AI Model Upgrade
+
+- Switched from `gemini-2.5-flash` to **Gemini 2.5 Flash Lite**
+- Flash Lite optimized for high-throughput JSON tasks
+- **Result:** Response latency reduced from ~25s to ~10s
 
 #### Crash Prevention
 
@@ -54,16 +60,24 @@ All notable changes to FORMA will be documented in this file.
 - **Corner Brackets:** Tactical HUD aesthetic
 - Tips cycle every **4 seconds** with instant swap animation
 
+### 🎨 Design System: Refined Brutalism
+
+- Applied **micro-radii** (`rounded-sm`, 2px) to buttons, cards, and tooltips
+- Design feedback from user (Mahesh): "Softer edges without losing brutalist DNA"
+- Updated `WorkoutCard.tsx` and button styles in `page.tsx`
+- Slider thumb styling refined with 2px border-radius
+
 ### 📁 Files Changed
 
 ```
 src/
 ├── app/
-│   ├── api/generate-plan/route.ts  # API key rotation, error handling
-│   ├── page.tsx                    # Error states, Intel Loader integration
-│   └── globals.css                 # @keyframes breathe animation
+│   ├── api/generate-plan/route.ts  # API key rotation, model upgrade, error handling
+│   ├── page.tsx                    # Error states, Intel Loader, rounded-sm buttons
+│   └── globals.css                 # @keyframes breathe, slider styling
 ├── components/
-│   └── IntelLoader.tsx             # NEW — Goal-based science tips loader
+│   ├── IntelLoader.tsx             # NEW — Goal-based science tips loader
+│   └── WorkoutCard.tsx             # rounded-sm cards and tooltips
 └── lib/
     ├── supabase.ts                 # persistSession: false
     └── gemini.ts                   # Removed old API key check

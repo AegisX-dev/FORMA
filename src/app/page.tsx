@@ -321,7 +321,7 @@ export default function Home() {
 
         {/* Error State */}
         {isError && !loading && (
-          <div className="mb-8 border border-red-500/50 bg-red-500/10 px-6 py-4">
+          <div className="mb-8 border border-red-500/50 bg-red-500/10 px-6 py-4 rounded-sm">
             <p className="font-mono text-sm uppercase tracking-widest text-red-400">
               {errorMessage || "Something went wrong. Please try again."}
             </p>
@@ -344,7 +344,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => downloadPDF(workoutPlan)}
-                className="border border-white/30 bg-transparent px-6 py-2 font-mono text-sm uppercase tracking-widest text-white transition-all hover:border-acid hover:text-acid"
+                className="border border-white/30 bg-transparent px-6 py-2 font-mono text-sm uppercase tracking-widest text-white transition-all hover:border-acid hover:text-acid rounded-sm"
               >
                 DOWNLOAD BLUEPRINT
               </button>
@@ -443,7 +443,7 @@ export default function Home() {
                       color: daysPerWeek === d ? '#050505' : '#888888',
                       borderColor: daysPerWeek === d ? '#D4FF00' : 'rgba(136, 136, 136, 0.3)',
                     }}
-                    className="border-2 px-6 py-3 font-mono text-base uppercase tracking-widest transition-all font-bold"
+                    className="border-2 px-6 py-3 font-mono text-base uppercase tracking-widest transition-all font-bold rounded-sm"
                   >
                     {d} DAYS
                   </button>
@@ -467,7 +467,7 @@ export default function Home() {
                       color: equipment.includes(item) ? '#050505' : '#888888',
                       borderColor: equipment.includes(item) ? '#D4FF00' : 'rgba(136, 136, 136, 0.3)',
                     }}
-                    className="border-2 px-6 py-3 font-mono text-sm uppercase tracking-widest transition-all font-bold"
+                    className="border-2 px-6 py-3 font-mono text-sm uppercase tracking-widest transition-all font-bold rounded-sm"
                   >
                     {item}
                   </button>
@@ -480,7 +480,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={handleGenerate}
-                className="group relative border border-acid bg-transparent px-12 py-5 font-display text-lg font-bold uppercase tracking-wide text-acid transition-all hover:bg-acid hover:text-void"
+                className="group relative border border-acid bg-transparent px-12 py-5 font-display text-lg font-bold uppercase tracking-wide text-acid transition-all hover:bg-acid hover:text-void rounded-sm"
               >
                 <span className="relative z-10">GENERATE PROTOCOL</span>
               </button>

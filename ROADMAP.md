@@ -50,10 +50,12 @@ This document outlines the development roadmap from **v1.0** (current) through *
 | ----------- | -------------------- | --------------------------------------------------------------------------------------------- | ------ |
 | Stability   | API Key Rotation     | Failover engine rotates through 3 API keys (`GEMINI_API_KEY_1/2/3`) to bypass 429 rate limits | ✅     |
 | Performance | Payload Optimization | Minified AI context (ID, Name, Muscle only) — **60% token reduction**                         | ✅     |
+| Performance | Model Upgrade        | Switched to **Gemini 2.5 Flash Lite** — latency reduced from ~25s to ~10s                     | ✅     |
 | Stability   | Crash Prevention     | `try/catch` guards in `page.tsx` + `route.ts` — graceful "System Busy" UI states              | ✅     |
 | Stability   | Supabase Fix         | Disabled `persistSession` for privacy browsers (incognito mode support)                       | ✅     |
 | UX          | Intel Loader         | Goal-based science tips feed during loading with pulsating core animation                     | ✅     |
 | UX          | Instant Tips         | Tips cycle every 4s with instant swap animation                                               | ✅     |
+| Design      | Visual Polish        | **Refined Brutalism** — micro-radii (`rounded-sm`) applied per user feedback (Mahesh)         | ✅     |
 
 ---
 
