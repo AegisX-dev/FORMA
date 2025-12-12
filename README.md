@@ -13,7 +13,7 @@
   <strong>Science-backed fitness programs generated in seconds.</strong>
   <br><br>
   <a href="https://forma-two.vercel.app/">🔗 Live Demo</a> · 
-  <a href="VERSION-1.2.md">📋 v1.2 Release Notes</a> · 
+  <a href="VERSION-1.3.md">📋 v1.3 Release Notes</a> · 
   <a href="ROADMAP.md">🗺️ Roadmap</a> ·
   <a href="SECURITY.md">🔒 Security</a>
 </p>
