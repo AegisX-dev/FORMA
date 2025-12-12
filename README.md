@@ -3,9 +3,10 @@
 > Sculpted by Science. Architected by AI.
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.2.1-acid?style=flat-square" alt="Version 1.2.1">
+  <img src="https://img.shields.io/badge/version-1.3.0-acid?style=flat-square" alt="Version 1.3.0">
   <img src="https://img.shields.io/badge/status-live-brightgreen?style=flat-square" alt="Status: Live">
   <img src="https://img.shields.io/badge/stability-ironclad-blue?style=flat-square" alt="Stability: Ironclad">
+  <img src="https://img.shields.io/badge/admin-neural%20ingest-purple?style=flat-square" alt="Admin: Neural Ingest">
 </p>
 
 <p align="center">
@@ -70,7 +71,7 @@ graph TD
 | Constraint                                                                                    | Mitigation / Roadmap                                                                                    |
 | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | **Cold Start Latency** — Vercel Free Tier serverless functions may experience 2-3s cold start | Implemented a client-side "Tactical Loading Sequence" to mask latency and improve perceived performance |
-| **Database Static Nature** — Exercise list is manually curated                                | **Roadmap:** Build an admin dashboard for automated ingestion of new NotebookLM insights                |
+| **Database Static Nature** — Exercise list is manually curated                                | ✅ **Solved:** Admin Dashboard with Neural Ingestor for AI-powered bulk uploads                         |
 
 ## 🛠 Tech Stack
 
@@ -130,13 +131,17 @@ GEMINI_API_KEY_3=your_tertiary_gemini_key   # Optional
 ```
 src/
 ├── app/
-│   ├── api/generate-plan/   # AI workout generation endpoint
+│   ├── api/
+│   │   ├── generate-plan/   # AI workout generation endpoint
+│   │   └── admin/ingest/    # Neural Ingestor API (PDF → DB)
+│   ├── admin/page.tsx       # Admin Dashboard (PIN-protected)
 │   └── page.tsx             # Main interface
 ├── components/
-│   └── WorkoutCard.tsx      # Exercise display with tooltips
+│   ├── WorkoutCard.tsx      # Exercise display with tooltips
+│   └── IntelLoader.tsx      # Goal-based loading tips
 └── lib/
     ├── supabase.ts          # Database client
-    └── gemini.ts            # AI client + prompt engineering
+    └── gemini.ts            # AI prompt engineering
 ```
 
 ## ⚡ Features
@@ -151,16 +156,15 @@ src/
 - **PDF Export** — High-contrast blueprint for offline use
 - **🛡️ Smart Rate Limiting** — 3-key API rotation for 99.9% uptime
 - **🧠 Intel Loader** — Goal-specific science tips during generation
+- **🧬 Neural Ingestor** — AI-powered PDF parsing for bulk exercise uploads (Admin)
 
-## 📈 What's New in v1.2.1 (The Ironclad)
+## 📈 What's New in v1.3.0 (The Brain)
 
-- 🛡️ **API Key Rotation** — Automatic failover across 3 keys for rate limit resilience
-- ⚡ **60% Faster** — Minified AI payload reduces token usage dramatically
-- 🚀 **Gemini 2.5 Flash Lite** — Model upgrade reduces latency from ~25s to ~10s
-- 🧠 **Intel Loader** — Goal-based science tips feed during generation
-- 🔒 **Crash Prevention** — Graceful error handling, no more white screens
-- 🌐 **Privacy Browser Support** — Works in incognito/strict privacy modes
-- 🎨 **Refined Brutalism** — Micro-radii design polish per user feedback
+- 🧬 **Neural Ingestor** — AI-powered admin tool parses PDFs to auto-populate exercise database
+- 🔐 **Admin Dashboard** — PIN-protected `/admin` route for database management
+- 🧠 **Smart Deduplication** — Prevents duplicate exercises with case-insensitive name matching
+- ⚡ **Batch Processing** — Handles 100k+ characters, inserts exercises in <10 seconds
+- 📄 **Multi-Format Support** — Accepts PDF, CSV, and TXT uploads
 
 ---
 

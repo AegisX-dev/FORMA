@@ -64,11 +64,11 @@ This document outlines the development roadmap from **v1.0** (current) through *
 > **Priority:** MEDIUM  
 > **Goal:** Increase plan variety and retention
 
-| Source       | Issue              | Description                                                            | Status             |
-| :----------- | :----------------- | :--------------------------------------------------------------------- | :----------------- |
-| **User #11** | **More Exercises** | **Add 20+ exercises to cover gaps: Abs, Forearms, specific machines.** | **✅ DONE (v1.1)** |
-| User #6      | Demo Videos        | Add "Watch" button linking to video tutorials.                         | 📋 Planned         |
-| Internal     | Admin Dashboard    | UI to add exercises without SQL access.                                | 📋 Planned         |
+| Source       | Issue               | Description                                                            | Status             |
+| :----------- | :------------------ | :--------------------------------------------------------------------- | :----------------- |
+| **User #11** | **More Exercises**  | **Add 20+ exercises to cover gaps: Abs, Forearms, specific machines.** | **✅ DONE (v1.1)** |
+| User #6      | Demo Videos         | Add "Watch" button linking to video tutorials.                         | 📋 Planned         |
+| **Internal** | **Admin Dashboard** | **Neural Ingestor: AI-powered PDF parsing for bulk exercise uploads.** | **✅ DONE (v1.3)** |
 
 ---
 
@@ -113,9 +113,15 @@ v1.2.1 "The Ironclad" ───────────────────�
   │   • Crash Prevention (graceful error handling)
   │   • Intel Loader (goal-based science tips)
   │
-v1.3 "The Value" ─────────────────────────────────────────── 📋 PLANNED
+v1.3 "The Brain" ─────────────────────────────────────────── ✅ RELEASED
+  │   December 12, 2025
+  │   • Admin Dashboard (PIN-protected /admin route)
+  │   • Neural Ingestor (AI-powered PDF → DB pipeline)
+  │   • Smart Deduplication (prevents duplicate exercises)
+  │   • Batch Processing (100k+ chars in <10s)
+  │
+v1.4 "The Value" ─────────────────────────────────────────── 📋 PLANNED
   │   • Exercise videos
-  │   • Admin dashboard
   │
 v2.0 "The Upgrade" ───────────────────────────────────────── 🔮 FUTURE
       • User authentication

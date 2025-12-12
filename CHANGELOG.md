@@ -4,6 +4,58 @@ All notable changes to FORMA will be documented in this file.
 
 ---
 
+## [1.3.0] — 2025-12-12 — "The Brain"
+
+> **Focus:** AI-powered admin tools for database management
+
+### 🧬 Neural Ingestor (New Feature)
+
+An AI-powered data pipeline that parses uploaded documents to auto-populate the exercise database.
+
+#### How It Works
+
+1. **Upload** — Admin uploads PDF, CSV, or TXT file via `/admin` dashboard
+2. **Parse** — `pdf2json` extracts raw text from documents (server-side, no DOM required)
+3. **Extract** — `gemini-2.5-flash-lite` identifies exercises and extracts structured data
+4. **Dedupe** — Smart deduplication checks existing names before insert (case-insensitive)
+5. **Insert** — Batch insert to Supabase using Service Role key (bypasses RLS)
+
+#### Technical Details
+
+| Aspect        | Implementation                                                      |
+| ------------- | ------------------------------------------------------------------- |
+| Parser        | `pdf2json` — Pure JS, no canvas/DOMMatrix dependencies              |
+| AI Model      | `gemini-2.5-flash-lite` with `responseMimeType: 'application/json'` |
+| Auth          | Service Role key for admin writes, PIN protection for UI            |
+| Deduplication | Pre-fetch existing names, filter before insert                      |
+| Performance   | 100k+ characters processed in <10 seconds                           |
+
+#### Files Added
+
+```
+src/
+├── app/
+│   ├── admin/page.tsx           # PIN-protected admin dashboard
+│   └── api/admin/ingest/route.ts # Neural Ingestor API endpoint
+└── types/
+    └── pdf2json.d.ts            # TypeScript declarations
+```
+
+### 🔐 Admin Dashboard
+
+- **PIN Protection** — Environment variable `NEXT_PUBLIC_ADMIN_PIN`
+- **Manual Entry** — Form for single exercise uploads
+- **Bulk Upload** — Drag-and-drop Neural Ingest zone
+- **Refined Brutalism** — Matches main app design system
+
+### 🛡️ Safety Features
+
+- **Smart Deduplication** — Prevents duplicate exercises by name
+- **Service Role Isolation** — Admin API uses separate Supabase client
+- **Graceful Errors** — User-friendly messages for all failure modes
+
+---
+
 ## [1.2.1] — 2025-12-09 — "The Ironclad"
 
 > **Focus:** Production-grade stability and user engagement
