@@ -13,9 +13,10 @@
   <strong>Science-backed fitness programs generated in seconds.</strong>
   <br><br>
   <a href="https://forma-two.vercel.app/">🔗 Live Demo</a> · 
-  <a href="VERSION-1.2.md">📋 v1.2 Release Notes</a> · 
+  <a href="VERSION-1.3.md">📋 v1.3 Release Notes</a> · 
   <a href="ROADMAP.md">🗺️ Roadmap</a> ·
-  <a href="SECURITY.md">🔒 Security</a>
+  <a href="SECURITY.md">🔒 Security</a> ·
+  <a href="CONTRIBUTING.md">🤝 Contributing</a>
 </p>
 
 <p align="center">
@@ -38,11 +39,25 @@ graph TD
         C --> D[(Supabase DB)]
     end
 
+    subgraph Admin["Admin Pipeline (v1.3)"]
+        Admin[Admin User] --> PIN{PIN Auth}
+        PIN --> Dashboard[Admin Dashboard]
+        Dashboard --> Upload[PDF/CSV/TXT Upload]
+        Upload --> Ingest[Neural Ingestor API]
+        Ingest --> Gemini2[Gemini AI - Extract]
+        Gemini2 --> Dedupe[Smart Deduplication]
+        Dedupe -->|Service Role Key| D
+    end
+
     subgraph Live["Live User Flow"]
         User[User] --> UI[Next.js Frontend]
-        UI --> API[API Route]
-        API --> D
-        API --> AI[Gemini Flash AI]
+        UI --> API[Generate Plan API]
+        API -->|Anon Key| D
+        API --> Rotate{Key Rotation}
+        Rotate --> Key1[Gemini Key 1]
+        Rotate --> Key2[Gemini Key 2]
+        Rotate --> Key3[Gemini Key 3]
+        Key1 & Key2 & Key3 --> AI[Gemini Flash Lite]
         AI --> API
         API --> UI
     end
