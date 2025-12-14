@@ -51,8 +51,11 @@ jobs:
         run: npm run build
         env:
           # Required for build to succeed (use dummy values in CI)
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key' }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://example.supabase.co' }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'dummy-anon-key' }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || 'dummy-service-role-key' }}
+          NEXT_PUBLIC_ADMIN_PIN: ${{ secrets.NEXT_PUBLIC_ADMIN_PIN || '1234' }}
+          GEMINI_API_KEY_1: ${{ secrets.GEMINI_API_KEY_1 || 'dummy-gemini-key' }}
 
       # 7. Upload build artifacts (optional, for debugging)
       - name: 📤 Upload build artifacts
