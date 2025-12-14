@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { supabase } from "@/lib/supabase";
 import { generateWorkoutPrompt } from "@/lib/gemini";
+import { generateInputHash } from "@/lib/hash";
 
 // API Key Pool for rotation and failover
 interface ApiConfig {
@@ -46,6 +47,24 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    // =========================================================================
+    // ZERO-FUND CACHE: Check for existing plan before calling AI
+    // =========================================================================
+    const inputHash = await generateInputHash(userInputs);
+    
+    const { data: cachedPlan, error: cacheError } = await supabase
+      .from("generated_plans")
+      .select("plan_data")
+      .eq("input_hash", inputHash)
+      .single();
+
+    if (cachedPlan && !cacheError) {
+      console.log(`⚡ CACHE HIT [${inputHash.slice(0, 8)}...] — Returning stored plan`);
+      return NextResponse.json(cachedPlan.plan_data);
+    }
+
+    console.log(`🤖 CACHE MISS [${inputHash.slice(0, 8)}...] — Generating new plan`);
 
     // Parse user equipment into array format
     const userEquipment = userInputs.equipment
@@ -190,6 +209,24 @@ export async function POST(request: NextRequest) {
         }),
       })),
     };
+
+    // =========================================================================
+    // ZERO-FUND CACHE: Store the generated plan for future requests
+    // =========================================================================
+    const { error: insertError } = await supabase
+      .from("generated_plans")
+      .insert({
+        input_hash: inputHash,
+        input_constraints: userInputs,
+        plan_data: enrichedPlan,
+      });
+
+    if (insertError) {
+      // Log but don't fail the request - caching is non-critical
+      console.warn(`⚠ Cache insert failed: ${insertError.message}`);
+    } else {
+      console.log(`✓ AI GENERATED [${inputHash.slice(0, 8)}...] — Plan cached for future requests`);
+    }
 
     return NextResponse.json(enrichedPlan);
   } catch (error) {
