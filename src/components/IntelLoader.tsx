@@ -65,6 +65,7 @@ export default function IntelLoader({ goals }: IntelLoaderProps) {
   // Set first tip immediately on mount
   useEffect(() => {
     setCurrentTip(tips[0]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Cycle through tips every 4 seconds

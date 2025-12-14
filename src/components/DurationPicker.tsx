@@ -52,6 +52,7 @@ export default function DurationPicker({
       container.scrollTo({ top: scrollTop, behavior: "auto" });
       setActiveIndex(index);
     }, 0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Only run on mount
 
   // Scroll to value when it changes externally (not from user scroll)

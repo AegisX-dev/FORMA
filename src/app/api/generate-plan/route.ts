@@ -78,10 +78,12 @@ export async function POST(request: NextRequest) {
     );
 
     // Step A: Query Supabase for exercises filtered by user's equipment
-    let { data: exercises, error: dbError } = await supabase
+    const { data: exercisesData, error: dbError } = await supabase
       .from("exercises")
       .select("readable_id, name, target_muscle, equipment, science_note")
       .overlaps("equipment", formattedEquipment);
+
+    let exercises = exercisesData;
 
     if (dbError) {
       return NextResponse.json(
