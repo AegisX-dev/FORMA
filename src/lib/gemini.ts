@@ -1,5 +1,3 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
 // Note: API key initialization is now handled in route.ts with key rotation
 // This file only exports the prompt generator
 
