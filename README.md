@@ -39,8 +39,8 @@ graph TD
         C --> D[(Supabase DB)]
     end
 
-    subgraph Admin["Admin Pipeline (v1.3)"]
-        Admin[Admin User] --> PIN{PIN Auth}
+    subgraph AdminPipeline["Admin Pipeline (v1.3)"]
+        AdminUser[Admin User] --> PIN{PIN Auth}
         PIN --> Dashboard[Admin Dashboard]
         Dashboard --> Upload[PDF/CSV/TXT Upload]
         Upload --> Ingest[Neural Ingestor API]
