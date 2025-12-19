@@ -72,6 +72,38 @@ This document outlines the development roadmap from **v1.0** (current) through *
 
 ---
 
+## 🏗️ Phase 3.1: Zero-Fund Architecture — v1.3.1 "The Architect"
+
+> **Priority:** HIGH  
+> **Goal:** Achieve $0 operating costs through intelligent caching  
+> **Status:** ✅ RELEASED (December 14, 2025)
+
+| Category     | Feature           | Implementation                                                  | Status |
+| ------------ | ----------------- | --------------------------------------------------------------- | ------ |
+| Architecture | DNA Hashing       | Deterministic SHA-256 input hashing for cache key generation    | ✅     |
+| Performance  | Zero-Fund Caching | Cache-first API route — **~90% reduction** in Gemini API costs  | ✅     |
+| Database     | Input Hash Index  | B-Tree indexed `input_hash` column for O(1) lookups             | ✅     |
+| DevEx        | Cache Logging     | Console output: `⚡ CACHE HIT` vs `🤖 CACHE MISS` for debugging | ✅     |
+
+---
+
+## 🌐 Phase 3.5: Open Source Governance
+
+> **Priority:** HIGH  
+> **Goal:** Establish community standards and contribution workflows  
+> **Status:** 🟡 IN PROGRESS
+
+| Category   | Item                      | Description                                           | Status |
+| ---------- | ------------------------- | ----------------------------------------------------- | ------ |
+| Governance | Public Repo Migration     | Repository moved from Private to Public on GitHub     | ✅     |
+| Governance | MIT License               | Permissive open source license for community adoption | ✅     |
+| Governance | Contributing Guidelines   | `CONTRIBUTING.md` with PR standards and code style    | ✅     |
+| Governance | Environment Template      | `.env.example` for secure onboarding                  | ✅     |
+| DevEx      | Community Issue Templates | Bug report and feature request templates              | 📋     |
+| CI/CD      | PR Checks Pipeline        | Automated linting and build verification on PRs       | 📋     |
+
+---
+
 ## 🔮 Phase 4: The Startup Pivot — v2.0 "The Upgrade"
 
 > **Priority:** FUTURE  
@@ -119,8 +151,13 @@ v1.3 "The Brain" ─────────────────────
   │   • Neural Ingestor (AI-powered PDF → DB pipeline)
   │   • Smart Deduplication (prevents duplicate exercises)
   │   • Batch Processing (100k+ chars in <10s)
-  │
-v1.4 "The Value" ─────────────────────────────────────────── 📋 PLANNED
+  │v1.3.1 "The Architect" ───────────────────────────── ✅ RELEASED
+  │   December 14, 2025
+  │   • Zero-Fund Caching (DNA Hashing)
+  │   • ~90% API cost reduction
+  │   • Open Source Launch (MIT License)
+  │   • Contributing Guidelines
+  │v1.4 "The Value" ─────────────────────────────────────────── 📋 PLANNED
   │   • Exercise videos
   │
 v2.0 "The Upgrade" ───────────────────────────────────────── 🔮 FUTURE
@@ -135,7 +172,7 @@ v2.0 "The Upgrade" ────────────────────�
 
 ## 📜 License
 
-Copyright © 2025 Forma. All rights reserved.
+This project is licensed under the **MIT License** — see [LICENSE](LICENSE) for details.
 
 ---
 

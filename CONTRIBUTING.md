@@ -7,7 +7,7 @@ FORMA is a "Zero-Fund" architecture project. We value efficiency, strict typing,
 ## ⚡ Quick Start
 
 1.  **Fork the repo** and clone it locally.
-2.  **Install dependencies**: `npm install`
+2.  **Install dependencies**: `pnpm install`
 3.  **Set up Environment**: Copy `.env.example` to `.env.local` and add your keys.
 4.  **Create a Branch**: `git checkout -b feature/amazing-feature`
 
@@ -45,7 +45,7 @@ We use a specific aesthetic:
 
 ### Checklist for Approval
 
-1.  **Linting**: Ensure `npm run lint` passes before pushing.
+1.  **Linting**: Ensure `pnpm lint` passes before pushing.
 2.  **Type Safety**: No `any` types allowed.
 3.  **Conventional Commits**: Please use semantic commit messages:
     - `feat: add new strength algorithm`

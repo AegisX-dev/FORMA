@@ -15,49 +15,45 @@ jobs:
     name: Lint & Build
     runs-on: ubuntu-latest
 
+    # Move env vars here so they are available to all steps (Cleaner Architecture)
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://example.supabase.co' }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'dummy-anon-key' }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || 'dummy-service-role-key' }}
+      NEXT_PUBLIC_ADMIN_PIN: ${{ secrets.NEXT_PUBLIC_ADMIN_PIN || '1234' }}
+      GEMINI_API_KEY_1: ${{ secrets.GEMINI_API_KEY_1 || 'dummy-gemini-key' }}
+
     steps:
       # 1. Checkout repository
       - name: 📥 Checkout code
         uses: actions/checkout@v4
 
-      # 2. Setup Node.js
+      # 2. Setup pnpm (New Step)
+      - name: 🟢 Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      # 3. Setup Node.js (Updated for pnpm cache)
       - name: 🟢 Setup Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "npm"
+          cache: "pnpm"
 
-      # 3. Cache node_modules
-      - name: 📦 Cache node_modules
-        uses: actions/cache@v4
-        id: cache-node-modules
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      # 4. Clean install dependencies
+      # 4. Install dependencies (Faster)
       - name: 📥 Install dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       # 5. Run linter
       - name: 🔍 Run ESLint
-        run: npm run lint
+        run: pnpm run lint
 
       # 6. Build the application
       - name: 🏗️ Build Next.js
-        run: npm run build
-        env:
-          # Required for build to succeed (use dummy values in CI)
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://example.supabase.co' }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'dummy-anon-key' }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || 'dummy-service-role-key' }}
-          NEXT_PUBLIC_ADMIN_PIN: ${{ secrets.NEXT_PUBLIC_ADMIN_PIN || '1234' }}
-          GEMINI_API_KEY_1: ${{ secrets.GEMINI_API_KEY_1 || 'dummy-gemini-key' }}
+        run: pnpm run build
 
-      # 7. Upload build artifacts (optional, for debugging)
+      # 7. Upload artifacts (Optional, kept for safety)
       - name: 📤 Upload build artifacts
         uses: actions/upload-artifact@v4
         if: failure()
