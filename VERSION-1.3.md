@@ -227,7 +227,7 @@ From v1.2.1 to v1.3:
 2. Install new dependency:
 
    ```bash
-   npm install pdf2json
+   pnpm add pdf2json
    ```
 
 3. Access admin dashboard at `/admin`

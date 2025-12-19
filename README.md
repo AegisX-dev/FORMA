@@ -141,7 +141,7 @@ git clone https://github.com/YOUR_USERNAME/forma.git
 cd forma
 
 # 2. Install dependencies
-npm install
+pnpm install
 
 # 3. Set up environment variables
 cp .env.example .env.local
@@ -156,7 +156,7 @@ cp .env.example .env.local
 
 ```bash
 # Run development server
-npm run dev
+pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000)
