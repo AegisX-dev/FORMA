@@ -14,6 +14,7 @@ interface Exercise {
   note: string;
   name?: string;
   science_note?: string;
+  video_url?: string;
 }
 
 interface WorkoutDay {
@@ -368,6 +369,7 @@ export default function Home() {
                             reps={exercise.reps}
                             rest="90s"
                             scienceNote={exercise.science_note || exercise.note}
+                            videoUrl={exercise.video_url}
                           />
                         ))
                       ) : null}
