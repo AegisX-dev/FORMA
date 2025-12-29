@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
     // Step A: Query Supabase for exercises filtered by user's equipment
     const { data: exercisesData, error: dbError } = await supabase
       .from("exercises")
-      .select("readable_id, name, target_muscle, equipment, science_note")
+      .select("readable_id, name, target_muscle, equipment, science_note, video_url")
       .overlaps("equipment", formattedEquipment);
 
     let exercises = exercisesData;
@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
     if (!exercises || exercises.length === 0) {
       const { data: fallbackExercises, error: fallbackError } = await supabase
         .from("exercises")
-        .select("readable_id, name, target_muscle, equipment, science_note")
+        .select("readable_id, name, target_muscle, equipment, science_note, video_url")
         .overlaps("equipment", ["Bodyweight"]);
 
       if (fallbackError || !fallbackExercises || fallbackExercises.length === 0) {
@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
     const exerciseMap = new Map(
       exercises.map((ex) => [
         ex.readable_id,
-        { name: ex.name, science_note: ex.science_note },
+        { name: ex.name, science_note: ex.science_note, video_url: ex.video_url },
       ])
     );
 
@@ -207,6 +207,7 @@ export async function POST(request: NextRequest) {
             ...exercise,
             name: exerciseData?.name || `Exercise ${exercise.id}`,
             science_note: exerciseData?.science_note || exercise.note,
+            video_url: exerciseData?.video_url || null,
           };
         }),
       })),

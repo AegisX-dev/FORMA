@@ -67,7 +67,7 @@ This document outlines the development roadmap from **v1.0** (current) through *
 | Source       | Issue               | Description                                                            | Status             |
 | :----------- | :------------------ | :--------------------------------------------------------------------- | :----------------- |
 | **User #11** | **More Exercises**  | **Add 20+ exercises to cover gaps: Abs, Forearms, specific machines.** | **✅ DONE (v1.1)** |
-| User #6      | Demo Videos         | Add "Watch" button linking to video tutorials.                         | 📋 Planned         |
+| User #6      | Demo Videos         | Add "Watch" button linking to video tutorials.                         | ✅ DONE (v1.4)     |
 | **Internal** | **Admin Dashboard** | **Neural Ingestor: AI-powered PDF parsing for bulk exercise uploads.** | **✅ DONE (v1.3)** |
 
 ---
@@ -157,8 +157,10 @@ v1.3 "The Brain" ─────────────────────
   │   • ~90% API cost reduction
   │   • Open Source Launch (MIT License)
   │   • Contributing Guidelines
-  │v1.4 "The Value" ─────────────────────────────────────────── 📋 PLANNED
-  │   • Exercise videos
+  │v1.4 "The Value" ──────────────────────────────────────────── ✅ RELEASED
+  │   December 29, 2025
+  │   • Exercise video modal (Play button on cards)
+  │   • Brutalist VideoModal component
   │
 v2.0 "The Upgrade" ───────────────────────────────────────── 🔮 FUTURE
       • User authentication
